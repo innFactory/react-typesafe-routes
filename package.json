@@ -1,0 +1,73 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "react": "tsdx build && yarn parcel src/react/index.html"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "react-typesafe-routes",
+  "author": "Nicolas Schlecker (hi@nicolasschlecker.de)",
+  "module": "dist/react-typesafe-routes.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/react-typesafe-routes.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/react-typesafe-routes.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "dependencies": {
+    "react": ">=16",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.6.2",
+    "@types/qs": "^6.9.5",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "husky": "^4.3.0",
+    "parcel": "^1.12.4",
+    "qs": "^6.9.4",
+    "react-dom": "^17.0.1",
+    "size-limit": "^4.6.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.0.3",
+    "typescript": "4.1.0-beta"
+  },
+  "resolutions": {
+    "**/typescript": "4.1.0-beta",
+    "**/@typescript-eslint/eslint-plugin": "^4.6.1",
+    "**/@typescript-eslint/parser": "^4.6.1"
+  }
+}
