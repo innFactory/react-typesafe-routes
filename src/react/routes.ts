@@ -1,4 +1,4 @@
-import { floatParser, OptionsRouter, stringParser } from '..';
+import { floatParser, OptionsRouterType, stringParser } from '..';
 import { About, Home, Topics } from './react';
 
 const defaultOptions = {

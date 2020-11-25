@@ -218,15 +218,15 @@ type ChildrenRouterFn<RO extends RouteOptions, CRM extends ChildRouteMap<RO>> = 
 
 type RouterFn<RO extends RouteOptions, CRM extends ChildRouteMap<RO>> = (route: RouteFn<RO>) => CRM;
 
-type OptionsRouterFn = <RO extends RouteOptions, CRM extends ChildRouteMap<RO>>(options: Required<RO>, routes: RouterFn<RO, CRM>) => OptionsRouter<RO, CRM>;
+type OptionsRouterFn = <RO extends RouteOptions, CRM extends ChildRouteMap<RO>>(options: Required<RO>, routes: RouterFn<RO, CRM>) => OptionsRouterType<RO, CRM>;
 
-export type OptionsRouter<RO extends RouteOptions, CRM extends ChildRouteMap<RO> = any> = { defaultOptions: RO } & { [K in keyof CRM]: CRM[K] };
+export type OptionsRouterType<RO extends RouteOptions, CRM extends ChildRouteMap<RO> = any> = { defaultOptions: RO } & { [K in keyof CRM]: CRM[K] };
 
-type OptionlessRouterFn = <CRM extends ChildRouteMap<undefined>>(routes: RouterFn<undefined, CRM>) => Router<CRM>;
+type OptionlessRouterFn = <CRM extends ChildRouteMap<undefined>>(routes: RouterFn<undefined, CRM>) => RouterType<CRM>;
 
-export type Router<CRM extends ChildRouteMap<undefined>> = { [K in keyof CRM]: CRM[K] };
+export type RouterType<CRM extends ChildRouteMap<undefined>> = { [K in keyof CRM]: CRM[K] };
 
-export type AnyRouter = OptionsRouter<any, any> | Router<any>;
+export type AnyRouterType = OptionsRouterType<any, any> | RouterType<any>;
 
 // Utilities
 const filterparamsMap = (

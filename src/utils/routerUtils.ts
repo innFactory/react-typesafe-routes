@@ -1,14 +1,14 @@
 import {
   AnyOptionsRouteNode,
   AnyRouteNode,
-  AnyRouter,
+  AnyRouterType,
   ChildRouteMap,
-  OptionsRouter,
+  OptionsRouterType,
   RouteOptions,
 } from '..';
 
 export function routerToRouteList<RO extends RouteOptions>(
-  router: OptionsRouter<RO>,
+  router: OptionsRouterType<RO>,
   forceChildRoutes = false
 ): AnyOptionsRouteNode<RO>[] {
   return flattenRouteList(
@@ -20,7 +20,7 @@ export function routerToRouteList<RO extends RouteOptions>(
 }
 
 export function anyRouterToRouteList(
-  router: AnyRouter,
+  router: AnyRouterType,
   forceChildRoutes = false
 ): AnyRouteNode[] {
   return flattenRouteList(

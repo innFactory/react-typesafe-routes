@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { AnyRouter } from '..';
+import { AnyRouterType } from '..';
 import { anyRouterToRouteList } from '../utils/routerUtils';
 
 interface Props {
-  router: AnyRouter;
+  router: AnyRouterType;
 }
 
 export function RouterSwitch(props: Props) {

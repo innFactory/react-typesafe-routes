@@ -1,10 +1,10 @@
 import { matchPath, useLocation } from 'react-router-dom';
-import { OptionsRouter, RouteOptions } from '..';
+import { OptionsRouterType, RouteOptions } from '..';
 import * as _ from 'lodash';
 import { routerToRouteList } from '../utils/routerUtils';
 
 export const useRouteOptions = <RO extends RouteOptions>(
-  router: OptionsRouter<RO>
+  router: OptionsRouterType<RO>
 ): RO => {
   const { pathname, search } = useLocation();
 
