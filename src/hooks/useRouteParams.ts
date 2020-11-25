@@ -5,11 +5,11 @@ import { RouteNodeWithParams } from '..';
 export const useRouteParams = <
   T extends RouteNodeWithParams<string, any, any, any>
 >(
-  r: T,
+  route: T,
   o: IParseOptions = {}
 ): ReturnType<T['parseParams']> => {
   const { search } = useLocation();
-  return r.parseParams({
+  return route.parseParams({
     ...useParams(),
     ...parse(search, { ignoreQueryPrefix: true, ...o }),
   }) as any;

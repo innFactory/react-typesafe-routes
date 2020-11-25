@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   booleanParser,
   dateParser,
   intParser,
   OptionsRouter,
+  RouteMiddleware,
   Router,
   stringParser,
 } from '../src/index';
@@ -195,19 +197,26 @@ test('nested options', () => {
 });
 
 test('middleware', () => {
-  const errorPage = () => TestPage('error');
+  const loginPage = () => TestPage('login');
+  // This is a function because it needs access to router
+  const makeRedirect = () => <Redirect to={router.login().$} />;
+
+  const middleware: RouteMiddleware = next => {
+    if (true == true) {
+      return makeRedirect();
+    }
+    return next;
+  };
 
   const router = Router(route => ({
+    login: route('login', {
+      page: loginPage(),
+    }),
     restricted: route(
       'restricted',
       {
         page: TestPage,
-        middleware: next => {
-          if (true == true) {
-            return errorPage;
-          }
-          return next;
-        },
+        middleware: middleware,
       },
       route => ({
         dashboard: route('dashboard', { page: TestPage }),
@@ -215,7 +224,9 @@ test('middleware', () => {
     ),
   }));
 
-  expect(router.restricted.children.dashboard.render()).toEqual(errorPage());
+  expect(router.restricted.children.dashboard.render()).toEqual(makeRedirect());
 
-  expect(router.restricted.render()).toEqual(errorPage());
+  expect(router.restricted.render()).toEqual(makeRedirect());
+
+  expect(router.login.render()).toEqual(loginPage());
 });
