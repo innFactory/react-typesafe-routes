@@ -45,11 +45,13 @@
     }
   ],
   "dependencies": {
+    "lodash": "^4.17.20",
     "react": ">=16",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.6.2",
+    "@types/lodash": "^4.14.165",
     "@types/qs": "^6.9.5",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",

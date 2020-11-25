@@ -90,6 +90,7 @@ type RouteNodeBase<
     template: string;
     options: RO extends undefined ? undefined : Required<RO>;
     children: CRM;
+    includeChildren: boolean;
   }; // & { [K in keyof CRM]: CRM[K] };
 
 function isRouteNodeWithParams(node: any): node is RouteNodeWithParams<any, any, any, any> {
@@ -137,11 +138,33 @@ type RouteNode<
   RO extends RouteOptions,
   > = keyof TemplateParserMap<T> extends never ? RouteNodeWithoutParams<T, CRM, RO> : RouteNodeWithParams<T, TPM, CRM, RO>;
 
+export type AnyRouteNode = RouteNodeWithoutParams<string, any, any> | RouteNodeWithParams<string, any, any, any>;
+
+export type AnyOptionsRouteNode<RO extends RouteOptions> = RouteNodeWithoutParams<string, any, RO> | RouteNodeWithParams<string, any, any, RO>;
+
 type RouteFnBaseArgs<
   RO extends RouteOptions> = {
+    /**
+     * The Page to be rendered on this route.
+     */
     page: RoutePage;
+
+    /**
+     * A middleware for this Route.
+     */
     middleware?: RouteMiddleware;
+
+    /**
+     * Global options for this Route.
+     */
     options?: Partial<RO>
+
+    /**
+     * Wether or not to include this Routes child routes in a RouterSwitch.
+     *
+     * Defaults to true.
+     */
+    includeChildren?: boolean
   }
 
 type RouteFnArgsWithParams<
@@ -197,11 +220,13 @@ type RouterFn<RO extends RouteOptions, CRM extends ChildRouteMap<RO>> = (route: 
 
 type OptionsRouterFn = <RO extends RouteOptions, CRM extends ChildRouteMap<RO>>(options: Required<RO>, routes: RouterFn<RO, CRM>) => OptionsRouter<RO, CRM>;
 
-export type OptionsRouter<RO extends RouteOptions, CRM extends ChildRouteMap<RO>> = { defaultOptions: RO } & { [K in keyof CRM]: CRM[K] };
+export type OptionsRouter<RO extends RouteOptions, CRM extends ChildRouteMap<RO> = any> = { defaultOptions: RO } & { [K in keyof CRM]: CRM[K] };
 
-type OptionlessRouterFn = <CRM extends ChildRouteMap<undefined>>(routes: RouterFn<undefined, CRM>) => OptionlessRouter<CRM>;
+type OptionlessRouterFn = <CRM extends ChildRouteMap<undefined>>(routes: RouterFn<undefined, CRM>) => Router<CRM>;
 
-export type OptionlessRouter<CRM extends ChildRouteMap<undefined>> = { [K in keyof CRM]: CRM[K] };
+export type Router<CRM extends ChildRouteMap<undefined>> = { [K in keyof CRM]: CRM[K] };
+
+export type AnyRouter = OptionsRouter<any, any> | Router<any>;
 
 // Utilities
 const filterparamsMap = (
@@ -476,6 +501,7 @@ function routeFn<
       middleware !== undefined
         ? () => (middleware!(args.page as any) as any)()
         : () => args.page,
+    includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;
 
   if (isRouteArgsWithParams(args)) {
