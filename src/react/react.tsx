@@ -89,7 +89,7 @@ export function Topic() {
   return (
     <h3>
       Requested topic ID: {topicId}, limit:&nbsp;
-      {limit != null && limit === limit ? limit * 2 : 'unknown'}
+      {limit ? limit * 2 : 'unknown'}
     </h3>
   );
 }

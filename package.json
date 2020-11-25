@@ -56,8 +56,8 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.6",
-    "@typescript-eslint/eslint-plugin": "^4.8.1",
-    "@typescript-eslint/parser": "^4.8.1",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "husky": "^4.3.0",
     "parcel": "^1.12.4",
     "qs": "^6.9.4",
@@ -65,11 +65,11 @@
     "size-limit": "^4.6.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
-    "typescript": "4.1.0-beta"
+    "typescript": "^4.1.2"
   },
   "resolutions": {
     "**/typescript": "4.1.0-beta",
-    "**/@typescript-eslint/eslint-plugin": "^4.6.1",
-    "**/@typescript-eslint/parser": "^4.6.1"
+    "**/@typescript-eslint/eslint-plugin": "^4.8.2",
+    "**/@typescript-eslint/parser": "^4.8.2"
   }
 }

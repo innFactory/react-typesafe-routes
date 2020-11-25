@@ -202,6 +202,7 @@ test('middleware', () => {
   const makeRedirect = () => <Redirect to={router.login().$} />;
 
   const middleware: RouteMiddleware = next => {
+    // eslint-disable-next-line no-self-compare
     if (true == true) {
       return makeRedirect();
     }
