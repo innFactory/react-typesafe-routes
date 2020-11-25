@@ -12,7 +12,7 @@ type RoutePage = React.ReactNode;
 
 export type RouteOptions = Record<string, any> | undefined;
 
-type RouteMiddleware = (next: RouteMiddleware) => RoutePage | RouteMiddleware;
+export type RouteMiddleware = (next: RouteMiddleware) => RoutePage | RouteMiddleware;
 
 // Parameter Parser
 export interface ParamParser<T> {
@@ -299,7 +299,7 @@ export const Router: OptionlessRouterFn = routes =>
   routes(optionsRoute(undefined));
 
 export const OptionsRouter: OptionsRouterFn = (options, routes) =>
-  Object.assign({defaultOptions: options }, routes(optionsRoute(options)));
+  Object.assign({ defaultOptions: options }, routes(optionsRoute(options)));
 
 type OptionsRouteFn = <RO extends RouteOptions>(
   options: Required<RO>
@@ -499,7 +499,13 @@ function routeFn<
     page: args.page,
     render:
       middleware !== undefined
-        ? () => (middleware!(args.page as any) as any)()
+        ? () => {
+          const middlewareResult = middleware!(args.page as any);
+          if (typeof middlewareResult === 'function') {
+            return (middlewareResult as any)();
+          }
+          return middlewareResult;
+        }
         : () => args.page,
     includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;

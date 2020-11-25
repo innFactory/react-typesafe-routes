@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { AnyRouter } from '..';
-import { routerToRouteList } from '../utils/routerUtils';
+import { anyRouterToRouteList } from '../utils/routerUtils';
 
 interface Props {
   router: AnyRouter;
@@ -12,7 +12,7 @@ export function RouterSwitch(props: Props) {
 
   return (
     <Switch>
-      {routerToRouteList(router).map((route, index) => (
+      {anyRouterToRouteList(router).map((route, index) => (
         <Route
           key={index}
           path={`/${route.template}`}

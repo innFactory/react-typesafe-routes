@@ -1,16 +1,30 @@
 import {
   AnyOptionsRouteNode,
+  AnyRouteNode,
+  AnyRouter,
   ChildRouteMap,
   OptionsRouter,
   RouteOptions,
 } from '..';
 
-export function routerToRouteList<RO extends RouteOptions = any>(
+export function routerToRouteList<RO extends RouteOptions>(
   router: OptionsRouter<RO>,
   forceChildRoutes = false
 ): AnyOptionsRouteNode<RO>[] {
   return flattenRouteList(
     Object.entries<AnyOptionsRouteNode<RO>>(router)
+      .filter(val => val[0] !== 'defaultOptions')
+      .map(val => val[1]),
+    forceChildRoutes
+  );
+}
+
+export function anyRouterToRouteList(
+  router: AnyRouter,
+  forceChildRoutes = false
+): AnyRouteNode[] {
+  return flattenRouteList(
+    Object.entries<AnyRouteNode>(router)
       .filter(val => val[0] !== 'defaultOptions')
       .map(val => val[1]),
     forceChildRoutes
