@@ -1,6 +1,6 @@
 import { IParseOptions, parse } from 'qs';
 import { useLocation, useParams } from 'react-router-dom';
-import { RouteNodeWithParams } from '..';
+import { RouteNodeWithParams } from '../routeNode';
 
 export const useRouteParams = <
   T extends RouteNodeWithParams<string, any, any, any>

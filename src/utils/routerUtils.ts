@@ -1,11 +1,7 @@
-import {
-  AnyOptionsRouteNode,
-  AnyRouteNode,
-  AnyRouterType,
-  ChildRouteMap,
-  OptionsRouterType,
-  RouteOptions,
-} from '..';
+import { ChildRouteMap } from '../routeFn';
+import { AnyOptionsRouteNode, AnyRouteNode } from '../routeNode';
+import { OptionsRouterType, AnyRouterType } from '../router';
+import { RouteOptions } from '../types';
 
 export function routerToRouteList<RO extends RouteOptions>(
   router: OptionsRouterType<RO>,
