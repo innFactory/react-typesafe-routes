@@ -7,22 +7,22 @@ const defaultOptions = {
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('home', {
-    page: () => Home,
+    component: () => Home,
   }),
   about: route('about', {
-    page: () => About,
+    component: () => About,
   }),
   topics: route(
     'topics',
     {
-      page: () => Topics,
+      component: () => Topics,
       options: {
         appBar: false,
       },
     },
     route => ({
       topic: route(':topicId&:limit?', {
-        page: () => Topics,
+        component: () => Topics,
         params: {
           topicId: stringParser,
           limit: floatParser,

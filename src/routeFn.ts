@@ -65,8 +65,9 @@ export function routeFn<
 
   if (this.previousMiddleware) {
     if (args.middleware) {
-      middleware = next =>
-        this.previousMiddleware!(args.middleware!(next) as any);
+      middleware = next => {
+        return this.previousMiddleware!(args.middleware!(next));
+      };
     } else {
       middleware = this.previousMiddleware;
     }
@@ -153,7 +154,7 @@ export function routeFn<
                 },
                 nextChild.templateWithQuery,
                 {
-                  page: nextChild.page,
+                  component: nextChild.component,
                   options: nextChild.options,
                   params: nextChild.paramsMap,
                 },
@@ -169,7 +170,7 @@ export function routeFn<
                 },
                 nextChild.templateWithQuery,
                 {
-                  page: nextChild.page,
+                  component: nextChild.component,
                   options: nextChild.options,
                 },
                 nextChild.children
@@ -188,17 +189,10 @@ export function routeFn<
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),
     options: options,
-    page: args.page,
-    render:
-      middleware !== undefined
-        ? () => {
-            const middlewareResult = middleware!(args.page as any);
-            if (typeof middlewareResult === 'function') {
-              return (middlewareResult as any)();
-            }
-            return middlewareResult;
-          }
-        : () => args.page,
+    component: args.component,
+    render: middleware
+      ? () => middleware!(args.component)
+      : () => args.component,
     includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;
 

@@ -25,7 +25,7 @@ test('nested routes', () => {
     group: route(
       'group/:groupId?&:filter?&:limit',
       {
-        page: TestPage,
+        component: TestPage,
         params: {
           groupId: stringParser,
           filter: booleanParser,
@@ -39,17 +39,17 @@ test('nested routes', () => {
         settings: route(
           'settings/:settingsId',
           {
-            page: TestPage,
+            component: TestPage,
             params: {
               settingsId: stringParser,
             },
           },
           route => ({
             account: route('account', {
-              page: TestPage,
+              component: TestPage,
             }),
             language: route('lang/:lang', {
-              page: TestPage,
+              component: TestPage,
               params: {
                 lang: stringListParser(['de', 'en']),
               },
@@ -84,7 +84,7 @@ test('nested routes', () => {
 test('param parser', () => {
   const router = Router(route => ({
     group: route('group/:groupId?&:filter?&:limit&:date?', {
-      page: TestPage,
+      component: TestPage,
       params: {
         groupId: stringParser,
         filter: booleanParser,
@@ -127,7 +127,7 @@ test('template', () => {
     group: route(
       'group/:groupId?&:filter?&:limit',
       {
-        page: TestPage,
+        component: TestPage,
         params: {
           groupId: stringParser,
           filter: booleanParser,
@@ -141,14 +141,14 @@ test('template', () => {
         settings: route(
           'settings/:settingsId',
           {
-            page: TestPage,
+            component: TestPage,
             params: {
               settingsId: stringParser,
             },
           },
           route => ({
             account: route('account', {
-              page: TestPage,
+              component: TestPage,
             }),
           })
         ),
@@ -168,22 +168,22 @@ test('nested options', () => {
 
   const router = OptionsRouter(options, route => ({
     home: route('', {
-      page: TestPage,
+      component: TestPage,
     }),
     auth: route(
       'auth',
       {
-        page: TestPage,
+        component: TestPage,
         options: {
           appBar: false,
         },
       },
       route => ({
         login: route('login', {
-          page: TestPage,
+          component: TestPage,
         }),
         register: route('register', {
-          page: TestPage,
+          component: TestPage,
           options: {
             appBar: true,
           },
@@ -212,16 +212,27 @@ test('middleware', () => {
 
   const router = Router(route => ({
     login: route('login', {
-      page: loginPage(),
+      component: loginPage(),
     }),
     restricted: route(
       'restricted',
       {
-        page: TestPage,
+        component: TestPage,
         middleware: middleware,
       },
       route => ({
-        dashboard: route('dashboard', { page: TestPage }),
+        dashboard: route('dashboard', { component: TestPage }),
+      })
+    ),
+    routeA: route(
+      'a',
+      {
+        component: TestPage('a'),
+      },
+      route => ({
+        routeB: route('b', {
+          component: TestPage('b'),
+        }),
       })
     ),
   }));
@@ -231,4 +242,35 @@ test('middleware', () => {
   expect(router.restricted.render()).toEqual(makeRedirect());
 
   expect(router.login.render()).toEqual(loginPage());
+});
+
+test('nested pages', () => {
+  const router = Router(route => ({
+    routeA: route(
+      'a',
+      {
+        component: TestPage('a'),
+      },
+      route => ({
+        routeB: route(
+          'b',
+          {
+            component: TestPage('b'),
+          },
+
+          route => ({
+            routeC: route('c', {
+              component: TestPage('c'),
+            }),
+          })
+        ),
+      })
+    ),
+  }));
+
+  expect(router.routeA.render()).toEqual(TestPage('a'));
+  expect(router.routeA.children.routeB.render()).toEqual(TestPage('b'));
+  expect(router.routeA.children.routeB.children.routeC.render()).toEqual(
+    TestPage('c')
+  );
 });

@@ -1,9 +1,4 @@
-import {
-  TemplateParserMap,
-  RouteMiddleware,
-  RouteOptions,
-  RoutePage,
-} from './types';
+import { TemplateParserMap, RouteMiddleware, RouteOptions } from './types';
 
 type RouteFnArgsWithParams<
   T extends string,
@@ -29,9 +24,9 @@ export type RouteFnArgs<
 
 type RouteFnBaseArgs<RO extends RouteOptions> = {
   /**
-   * The Page to be rendered on this route.
+   * The Component to be rendered on this route.
    */
-  page: RoutePage;
+  component: React.ReactNode;
 
   /**
    * A middleware for this Route.

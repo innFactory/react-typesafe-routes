@@ -14,7 +14,7 @@ export * from './components/RouterSwitch';
 export * from './hooks/useRouteOptions';
 export * from './hooks/useRouteParams';
 export * from './paramParser';
-export { RouteMiddleware, RouteOptions, RoutePage } from './types';
+export { RouteMiddleware, RouteOptions } from './types';
 
 type OptionsRouteFn = <RO extends RouteOptions>(
   options: Required<RO>

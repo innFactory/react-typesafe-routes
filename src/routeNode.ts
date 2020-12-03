@@ -7,7 +7,6 @@ import {
   SerializedParams,
   TemplateParserMap,
   RouteOptions,
-  RoutePage,
 } from './types';
 
 export type RouteNodeBase<
@@ -16,8 +15,8 @@ export type RouteNodeBase<
   RO extends RouteOptions
 > = {
   parentTemplate: string;
-  page: RoutePage;
-  render: () => RoutePage;
+  component: React.ReactNode;
+  render: () => React.ReactNode;
   templateWithQuery: T;
   template: string;
   options: RO extends undefined ? undefined : Required<RO>;
