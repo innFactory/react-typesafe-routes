@@ -15,9 +15,11 @@ export function RouterSwitch(props: Props) {
       {anyRouterToRouteList(router).map((route, index) => {
         const Component = (route.render() as any)();
         return (
-          <Route key={index} path={`/${route.template}`}>
-            <Component />
-          </Route>
+          <Route
+            key={index}
+            path={`/${route.template}`}
+            render={() => <Component />}
+          />
         );
       })}
     </Switch>

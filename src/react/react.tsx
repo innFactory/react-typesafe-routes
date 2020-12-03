@@ -86,6 +86,7 @@ export const Topics = () => {
 
 export function Topic() {
   let { topicId, limit } = useRouteParams(router.topics.children.topic);
+
   return (
     <h3>
       Requested topic ID: {topicId}, limit:&nbsp;

@@ -189,7 +189,6 @@ export function routeFn<
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),
     options: options,
-    component: args.component,
     render: middleware
       ? () => middleware!(() => args.component)
       : () => args.component,

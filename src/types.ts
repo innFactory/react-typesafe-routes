@@ -1,6 +1,6 @@
 import { ParamParser } from "./paramParser";
 
-export type RouteComponent = JSX.Element;
+export type RouteComponent = () => JSX.Element;
 
 export type RouteOptions = Record<string, any> | undefined;
 
