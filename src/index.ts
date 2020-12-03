@@ -10,11 +10,10 @@ import { RouteNode } from './routeNode';
 import { OptionsRouterFn, RouterFn } from './router';
 import { RouteOptions, TemplateParserMap } from './types';
 
-export * from './components/RouterSwitch';
-export * from './hooks/useRouteOptions';
-export * from './hooks/useRouteParams';
+export * from './components';
+export * from './hooks';
 export * from './paramParser';
-export { RouteMiddleware, RouteOptions } from './types';
+export { RouteComponent, RouteMiddleware, RouteOptions } from './types';
 
 type OptionsRouteFn = <RO extends RouteOptions>(
   options: Required<RO>

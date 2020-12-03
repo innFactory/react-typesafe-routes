@@ -10,7 +10,6 @@ export type RouteMiddleware = (
 
 export type RouteMiddlewareWithoutNext = () => RouteComponent;
 
-
 type InferParam<T extends string, M extends [string, string]> =
   T extends `:${infer O}?` ? [M[0], M[1] | O]
   : T extends `:${infer O}*` ? [M[0], M[1] | O]

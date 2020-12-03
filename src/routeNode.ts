@@ -4,10 +4,10 @@ import {
   InferParamGroups,
   OptionalParamNames,
   RequiredParamNames,
+  RouteComponent,
+  RouteOptions,
   SerializedParams,
   TemplateParserMap,
-  RouteOptions,
-  RouteComponent,
 } from './types';
 
 export type RouteNodeBase<

@@ -60,7 +60,10 @@ export function routeFn<
   }
 
   const parsedRoute = parseRoute(templateWithQuery, params);
-  const options: Required<RO> = { ...this.previousOptions, ...args.options };
+  const options: Required<RO> = {
+    ...this.previousOptions,
+    ...args.options,
+  };
   var middleware: RouteMiddleware | undefined;
 
   if (this.previousMiddleware) {
