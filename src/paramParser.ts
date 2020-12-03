@@ -3,12 +3,6 @@ export interface ParamParser<T> {
   serialize: (x: T) => string;
 }
 
-export const stringListParser: <T extends string[]>(
-  strings: T
-) => ParamParser<typeof strings[number]> = () => ({
-  parse: s => s,
-  serialize: s => s,
-});
 export const stringParser: ParamParser<string> = {
   parse: s => s,
   serialize: s => s,
@@ -29,3 +23,10 @@ export const booleanParser: ParamParser<boolean> = {
   parse: s => s === 'true',
   serialize: b => b.toString(),
 };
+
+export const stringListParser: <T extends readonly string[]>(
+  strings: T
+) => ParamParser<typeof strings[number]> = () => ({
+  parse: s => s,
+  serialize: s => s,
+});
