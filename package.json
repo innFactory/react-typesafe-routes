@@ -33,6 +33,16 @@
   },
   "name": "react-typesafe-routes",
   "author": "Nicolas Schlecker (hi@nicolasschlecker.de)",
+  "description": "The last routing library you will ever need in your react projects - Completely typesafe and easy to use.",
+  "keywords": [
+    "typesafe-routing",
+    "routing",
+    "route-options",
+    "route-middleware",
+    "react-router",
+    "react",
+    "react-router-dom"
+  ],
   "module": "dist/react-typesafe-routes.esm.js",
   "size-limit": [
     {
