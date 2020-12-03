@@ -1,10 +1,15 @@
 import { ParamParser } from "./paramParser";
 
+export type RouteComponent = JSX.Element;
+
 export type RouteOptions = Record<string, any> | undefined;
 
 export type RouteMiddleware = (
-  next: RouteMiddleware | React.ReactNode
-) => React.ReactNode;
+  next: RouteMiddlewareWithoutNext
+) => RouteComponent;
+
+export type RouteMiddlewareWithoutNext = () => RouteComponent;
+
 
 type InferParam<T extends string, M extends [string, string]> =
   T extends `:${infer O}?` ? [M[0], M[1] | O]

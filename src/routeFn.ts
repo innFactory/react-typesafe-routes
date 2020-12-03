@@ -66,7 +66,7 @@ export function routeFn<
   if (this.previousMiddleware) {
     if (args.middleware) {
       middleware = next => {
-        return this.previousMiddleware!(args.middleware!(next));
+        return this.previousMiddleware!(() => args.middleware!(next));
       };
     } else {
       middleware = this.previousMiddleware;
@@ -191,7 +191,7 @@ export function routeFn<
     options: options,
     component: args.component,
     render: middleware
-      ? () => middleware!(args.component)
+      ? () => middleware!(() => args.component)
       : () => args.component,
     includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;

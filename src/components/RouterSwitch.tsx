@@ -12,13 +12,14 @@ export function RouterSwitch(props: Props) {
 
   return (
     <Switch>
-      {anyRouterToRouteList(router).map((route, index) => (
-        <Route
-          key={index}
-          path={`/${route.template}`}
-          component={(route.render() as any)()}
-        />
-      ))}
+      {anyRouterToRouteList(router).map((route, index) => {
+        const Component = (route.render() as any)();
+        return (
+          <Route key={index} path={`/${route.template}`}>
+            <Component />
+          </Route>
+        );
+      })}
     </Switch>
   );
 }
