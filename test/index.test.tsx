@@ -51,7 +51,7 @@ test('nested routes', () => {
             language: route('lang/:lang', {
               page: TestPage,
               params: {
-                lang: stringListParser('de', 'en'),
+                lang: stringListParser(['de', 'en']),
               },
             }),
           })
