@@ -7,6 +7,7 @@ import {
   OptionsRouter,
   RouteMiddleware,
   Router,
+  stringListParser,
   stringParser,
 } from '../src/index';
 
@@ -50,7 +51,7 @@ test('nested routes', () => {
             language: route('lang/:lang', {
               page: TestPage,
               params: {
-                lang: stringParser,
+                lang: stringListParser('de', 'en'),
               },
             }),
           })

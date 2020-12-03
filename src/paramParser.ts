@@ -2,7 +2,12 @@ export interface ParamParser<T> {
   parse: (s: string) => T;
   serialize: (x: T) => string;
 }
-
+export const stringListParser: <T extends string[]>(
+  ...strings: T
+) => ParamParser<typeof strings[number]> = () => ({
+  parse: s => s,
+  serialize: s => s,
+});
 export const stringParser: ParamParser<string> = {
   parse: s => s,
   serialize: s => s,
