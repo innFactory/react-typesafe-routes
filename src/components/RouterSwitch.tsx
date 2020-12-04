@@ -17,7 +17,7 @@ export function RouterSwitch(props: Props) {
           <Route
             key={index}
             path={`/${route.template}`}
-            render={() => (route.render() as any)()}
+            render={route.render() as any}
           />
         );
       })}
