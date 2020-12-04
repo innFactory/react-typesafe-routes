@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { floatParser, OptionsRouter, stringParser } from '..';
 import { About, Home, Topics } from './react';
 
@@ -7,22 +8,22 @@ const defaultOptions = {
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('home', {
-    component: () => Home,
+    component: () => <Home />,
   }),
   about: route('about', {
-    component: () => About,
+    component: () => <About />,
   }),
   topics: route(
     'topics',
     {
-      component: () => Topics,
+      component: () => <Topics />,
       options: {
         appBar: false,
       },
     },
     route => ({
       topic: route(':topicId&:limit?', {
-        component: () => Topics,
+        component: () => <Topics />,
         params: {
           topicId: stringParser,
           limit: floatParser,

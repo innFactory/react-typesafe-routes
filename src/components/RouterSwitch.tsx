@@ -7,12 +7,11 @@ export const RouterSwitch = (props: { router: AnyRouterType }) => {
   return (
     <Switch>
       {anyRouterToRouteList(props.router).map((route, index) => {
+        const Component = route.render();
         return (
-          <Route
-            key={index}
-            path={`/${route.template}`}
-            render={route.render() as any}
-          />
+          <Route key={index} path={`/${route.template}`}>
+            <Component />
+          </Route>
         );
       })}
     </Switch>
