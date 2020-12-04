@@ -7,8 +7,6 @@ export const RouterSwitch = (props: { router: AnyRouterType }) => {
   return (
     <Switch>
       {anyRouterToRouteList(props.router).map((route, index) => {
-        console.log(route.render());
-        console.log((route.render() as any)());
         return (
           <Route
             key={index}
