@@ -1,6 +1,6 @@
 {
   "name": "react-typesafe-routes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The last routing library you will ever need in your react projects - Completely typesafe and easy to use.",
   "keywords": [
     "typesafe-routing",
