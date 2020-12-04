@@ -3,16 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 import { AnyRouterType } from '../router';
 import { anyRouterToRouteList } from '../utils/routerUtils';
 
-interface Props {
-  router: AnyRouterType;
-}
-
-export function RouterSwitch(props: Props) {
-  const { router } = props;
-
+export const RouterSwitch = (props: { router: AnyRouterType }) => {
   return (
     <Switch>
-      {anyRouterToRouteList(router).map((route, index) => {
+      {anyRouterToRouteList(props.router).map((route, index) => {
+        console.log(route.render());
+        console.log((route.render() as any)());
         return (
           <Route
             key={index}
@@ -23,4 +19,4 @@ export function RouterSwitch(props: Props) {
       })}
     </Switch>
   );
-}
+};
