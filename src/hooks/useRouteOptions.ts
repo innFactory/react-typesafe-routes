@@ -15,7 +15,7 @@ export const useRouteOptions = <RO extends RouteOptions>(
     routerToRouteList<RO>(router, true),
     route =>
       matchPath(location, {
-        path: route.parentTemplate + '/' + route.template,
+        path: route.parentTemplate + route.template,
       }) != null
   );
 

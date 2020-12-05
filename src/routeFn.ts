@@ -81,7 +81,7 @@ export function routeFn<
   }
 
   const childrenRouteFn = childrenRouterFn({
-    previousPath: this.previousPath + '/' + parsedRoute.pathTemplate,
+    previousPath: this.previousPath + parsedRoute.pathTemplate,
     previousQueryParams: { ...this.previousQueryParams },
     previousOptions: options,
     previousMiddleware: middleware,

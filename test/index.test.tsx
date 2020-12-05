@@ -23,7 +23,7 @@ test('nested routes', () => {
 
   const router = OptionsRouter(options, route => ({
     group: route(
-      'group/:groupId?&:filter?&:limit',
+      '/group/:groupId?&:filter?&:limit',
       {
         component: () => <TestPage />,
         params: {
@@ -37,7 +37,7 @@ test('nested routes', () => {
       },
       route => ({
         settings: route(
-          'settings/:settingsId',
+          '/settings/:settingsId',
           {
             component: () => <TestPage />,
             params: {
@@ -45,10 +45,10 @@ test('nested routes', () => {
             },
           },
           route => ({
-            account: route('account', {
+            account: route('/account', {
               component: () => <TestPage />,
             }),
-            language: route('lang/:lang', {
+            language: route('/lang/:lang', {
               component: () => <TestPage />,
               params: {
                 lang: stringListParser(['de', 'en']),
@@ -83,7 +83,7 @@ test('nested routes', () => {
 
 test('param parser', () => {
   const router = Router(route => ({
-    group: route('group/:groupId?&:filter?&:limit&:date?', {
+    group: route('/group/:groupId?&:filter?&:limit&:date?', {
       component: () => <TestPage />,
       params: {
         groupId: stringParser,
@@ -125,7 +125,7 @@ test('template', () => {
 
   const router = OptionsRouter(options, route => ({
     group: route(
-      'group/:groupId?&:filter?&:limit',
+      '/group/:groupId?&:filter?&:limit',
       {
         component: () => <TestPage />,
         params: {
@@ -139,7 +139,7 @@ test('template', () => {
       },
       route => ({
         settings: route(
-          'settings/:settingsId',
+          '/settings/:settingsId',
           {
             component: () => <TestPage />,
             params: {
@@ -147,7 +147,7 @@ test('template', () => {
             },
           },
           route => ({
-            account: route('account', {
+            account: route('/account', {
               component: () => <TestPage />,
             }),
           })
@@ -156,8 +156,8 @@ test('template', () => {
     ),
   }));
 
-  expect(router.group.children.settings.template).toBe('settings/:settingsId');
-  expect(router.group.template).toBe('group/:groupId?');
+  expect(router.group.children.settings.template).toBe('/settings/:settingsId');
+  expect(router.group.template).toBe('/group/:groupId?');
 });
 
 test('nested options', () => {
@@ -167,11 +167,11 @@ test('nested options', () => {
   };
 
   const router = OptionsRouter(options, route => ({
-    home: route('', {
+    home: route('/', {
       component: () => <TestPage />,
     }),
     auth: route(
-      'auth',
+      '/auth',
       {
         component: () => <TestPage />,
         options: {
@@ -179,10 +179,10 @@ test('nested options', () => {
         },
       },
       route => ({
-        login: route('login', {
+        login: route('/login', {
           component: () => <TestPage />,
         }),
-        register: route('register', {
+        register: route('/register', {
           component: () => <TestPage />,
           options: {
             appBar: true,
@@ -211,17 +211,17 @@ test('middleware', () => {
   };
 
   const router = Router(route => ({
-    login: route('login', {
+    login: route('/login', {
       component: () => <LoginPage />,
     }),
     restricted: route(
-      'restricted',
+      '/restricted',
       {
         component: () => <TestPage />,
         middleware: middleware,
       },
       route => ({
-        dashboard: route('dashboard', {
+        dashboard: route('/dashboard', {
           component: () => <TestPage />,
         }),
       })
