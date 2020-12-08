@@ -202,12 +202,12 @@ test('middleware', () => {
   // This is a function because it needs access to router
   const LoginRedirect = () => <Redirect to={router.login().$} />;
 
-  const middleware: RouteMiddleware = next => {
+  const Middleware: RouteMiddleware = next => {
     // eslint-disable-next-line no-self-compare
     if (true == true) {
       return () => <LoginRedirect />;
     }
-    return next();
+    return next;
   };
 
   const router = Router(route => ({
@@ -218,7 +218,7 @@ test('middleware', () => {
       '/restricted',
       {
         component: () => <TestPage />,
-        middleware: middleware,
+        middleware: props => Middleware(props),
       },
       route => ({
         dashboard: route('/dashboard', {

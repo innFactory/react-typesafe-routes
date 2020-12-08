@@ -1,3 +1,4 @@
+import { stringify } from 'qs';
 import { isRouteArgsWithParams, RouteFnArgs } from './routeArgs';
 import {
   isRouteNodeWithParams,
@@ -7,13 +8,12 @@ import {
   RouteNodeWithParams,
 } from './routeNode';
 import {
-  SerializedParams,
-  TemplateParserMap,
+  RawParams,
   RouteMiddleware,
   RouteOptions,
-  RawParams,
+  SerializedParams,
+  TemplateParserMap,
 } from './types';
-import { stringify } from 'qs';
 import {
   paramsParser,
   parseRoute,
@@ -69,14 +69,14 @@ export function routeFn<
   if (this.previousMiddleware) {
     if (args.middleware) {
       middleware = next => {
-        return this.previousMiddleware!(() => args.middleware!(next));
+        return this.previousMiddleware!(args.middleware!(next));
       };
     } else {
       middleware = this.previousMiddleware;
     }
   } else {
     if (args.middleware) {
-      middleware = args.middleware;
+      middleware = props => args.middleware!(props);
     }
   }
 
@@ -193,7 +193,7 @@ export function routeFn<
     children: _children ?? ({} as CRM),
     options: options,
     render: middleware
-      ? () => middleware!(() => args.component)
+      ? () => middleware!(args.component)
       : () => args.component,
     includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;

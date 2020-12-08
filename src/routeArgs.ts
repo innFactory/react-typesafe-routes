@@ -1,8 +1,8 @@
 import {
   TemplateParserMap,
-  RouteMiddleware,
   RouteOptions,
   RouteComponent,
+  RouteMiddleware,
 } from './types';
 
 type RouteFnArgsWithParams<
