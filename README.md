@@ -9,33 +9,33 @@ const defaultOptions = {
   appBar: true,
 };
 
-const authMiddleware = (next) => {
+const authMiddleware: RouteMiddleware = (next) => {
   if(isAuthenticated) {
     return next;
   } else {
-    return <Redirect to={router.login().$} />;
+    return () => <Redirect to={router.login()} />;
   }
 };
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    page: HomePage,
+    page: () => <HomePage />,
   }),
   login: route('/login', {
-    page: LoginPage,
+    page: () => <LoginPage />,
     options: { appBar: false }
   }),
   players: route(
     '/players',
     {
-      page: PlayersPage,
-      middleware: authMiddleware,
+      page: () => <PlayersPage />,
+      middleware: next => authMiddleware(next),
     },
     (route) => ({
       info: route(
         '/:name/:id',
         {
-          page: PlayerInfoPage,
+          page: () => <PlayerInfoPage />,
           params: {
             name: stringParser,
             id: intParser
@@ -43,11 +43,11 @@ export const router = OptionsRouter(defaultOptions, route => ({
         },
         (route) => ({
           rating: route('/rating/:id', {
-            page: PlayerRatingPage,
+            page: () => <PlayerRatingPage />,
             params: { id: intParser },
           }),
           ban: route('/rating/:id', {
-            page: PlayerRatingPage,
+            page: () => <PlayerRatingPage />,
             params: { id: intParser },
           }),
         }),
