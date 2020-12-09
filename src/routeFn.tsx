@@ -95,17 +95,15 @@ export function routeFn<
 
   // DEBUG:
   // console.log({ templateWithQuery, children, _children });
-  // console.log(
-  //   'routeFn',
-  //   {
-  //     templateWithQuery,
-  //     parsedRoute,
-  //     childrenType: typeof children,
-  //     _children,
-  //     options,
-  //   },
-  //   this
-  // );
+  console.log(
+    'routeFn',
+    {
+      templateWithQuery,
+      parsedRoute,
+      options,
+    },
+    this
+  );
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
@@ -192,6 +190,7 @@ export function routeFn<
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),
     options: options,
+    exact: args.exact ?? true,
     render: middleware
       ? () => middleware!(args.component)
       : () => args.component,

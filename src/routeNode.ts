@@ -20,6 +20,7 @@ export type RouteNodeBase<
   render: () => RouteComponent;
   templateWithQuery: T;
   template: string;
+  exact: boolean;
   options: RO extends undefined ? undefined : Required<RO>;
   children: CRM;
   includeChildren: boolean;

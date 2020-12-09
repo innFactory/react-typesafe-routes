@@ -66,6 +66,14 @@ test('nested routes', () => {
         ),
       })
     ),
+    product: route('/:name/:id&:tab?', {
+      component: () => <TestPage />,
+      params: {
+        id: intParser,
+        name: stringParser,
+        tab: stringParser,
+      },
+    }),
   }));
 
   expect(
@@ -93,6 +101,8 @@ test('nested routes', () => {
       .settings({ settingsId: 'settingsId' })
       .language({ lang: 'de' }).$
   ).toBe('/group/settings/settingsId/lang/de?limit=30');
+
+  expect(router.product({ id: 99, name: 'abc' }).$).toBe('/abc/99');
 });
 
 test('param parser', () => {
