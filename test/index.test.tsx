@@ -36,6 +36,14 @@ test('nested routes', () => {
         },
       },
       route => ({
+        item: route(':name/:id&:tab?', {
+          component: () => <TestPage />,
+          params: {
+            id: intParser,
+            name: stringParser,
+            tab: stringParser,
+          },
+        }),
         settings: route(
           '/settings/:settingsId',
           {
@@ -68,6 +76,12 @@ test('nested routes', () => {
 
   expect(
     router
+      .group({ filter: true, limit: 20, groupId: 'groupId' })
+      .item({ id: 99, name: 'abc' }).$
+  ).toBe('/group/groupId/abc/99?filter=true&limit=20');
+
+  expect(
+    router
       .group({ limit: 30 })
       .settings({ settingsId: 'settingsId' })
       .account().$
@@ -83,15 +97,28 @@ test('nested routes', () => {
 
 test('param parser', () => {
   const router = Router(route => ({
-    group: route('/group/:groupId?&:filter?&:limit&:date?', {
-      component: () => <TestPage />,
-      params: {
-        groupId: stringParser,
-        filter: booleanParser,
-        limit: intParser,
-        date: dateParser,
+    group: route(
+      '/group/:groupId?&:filter?&:limit&:date?',
+      {
+        component: () => <TestPage />,
+        params: {
+          groupId: stringParser,
+          filter: booleanParser,
+          limit: intParser,
+          date: dateParser,
+        },
       },
-    }),
+      route => ({
+        item: route(':name/:id&:tab?', {
+          component: () => <TestPage />,
+          params: {
+            id: intParser,
+            name: stringParser,
+            tab: stringParser,
+          },
+        }),
+      })
+    ),
   }));
 
   expect(
@@ -106,6 +133,18 @@ test('param parser', () => {
     filter: true,
     groupId: 'abc',
     date: new Date('2020-10-02T10:29:50Z'),
+  });
+
+  expect(
+    router.group.children.item.parseParams({
+      name: 'abc',
+      id: '99',
+      tab: 'overview',
+    })
+  ).toEqual({
+    name: 'abc',
+    id: 99,
+    tab: 'overview',
   });
 
   expect(router.group.parseParams({ limit: '9' })).toEqual({ limit: 9 });
