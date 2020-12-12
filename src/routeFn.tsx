@@ -60,6 +60,7 @@ export function routeFn<
   }
 
   const parsedRoute = parseRoute(templateWithQuery, params);
+  const fullTemplate = this.previousPath + '/' + parsedRoute.pathTemplate;
   const options: Required<RO> = {
     ...this.previousOptions,
     ...args.options,
@@ -81,7 +82,7 @@ export function routeFn<
   }
 
   const childrenRouteFn = childrenRouterFn({
-    previousPath: this.previousPath + parsedRoute.pathTemplate,
+    previousPath: this.previousPath + '/' + parsedRoute.pathTemplate,
     previousQueryParams: { ...this.previousQueryParams },
     previousOptions: options,
     previousMiddleware: middleware,
@@ -94,16 +95,14 @@ export function routeFn<
       : undefined;
 
   // DEBUG:
-  // console.log({ templateWithQuery, children, _children });
-  console.log(
-    'routeFn',
-    {
-      templateWithQuery,
-      parsedRoute,
-      options,
-    },
-    this
-  );
+  console.log('routeFn', {
+    fullTemplate,
+    templateWithQuery,
+    parsedRoute,
+    options,
+    args,
+    this: this,
+  });
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
@@ -123,19 +122,6 @@ export function routeFn<
             pathParams,
             this.previousPath
           );
-
-          // console.log('routeFn get: ', {
-          //   templateWithQuery,
-          //   pathParamParsers: parsedRoute.pathParamParsers,
-          //   rawParams,
-          //   pathParams,
-          //   path,
-          //   children: {
-          //     children,
-          //     type: typeof children,
-          //     _children,
-          //   },
-          // });
 
           if (next === '$') {
             return path + stringify(queryParams, { addQueryPrefix: true });
@@ -185,7 +171,7 @@ export function routeFn<
     );
 
   var node: any = {
-    parentTemplate: this.previousPath,
+    fullTemplate: fullTemplate,
     templateWithQuery: templateWithQuery,
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),

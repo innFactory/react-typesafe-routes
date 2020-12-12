@@ -9,9 +9,12 @@ export const RouterSwitch = (props: { router: AnyRouterType }) => {
       {anyRouterToRouteList(props.router).map((route, index) => {
         const Component = route.render();
         return (
-          <Route key={index} path={`/${route.template}`} exact={route.exact}>
-            <Component />
-          </Route>
+          <Route
+            key={index}
+            path={`${route.fullTemplate}`}
+            exact={route.exact}
+            component={Component}
+          />
         );
       })}
     </Switch>

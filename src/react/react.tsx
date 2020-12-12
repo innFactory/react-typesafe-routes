@@ -87,7 +87,7 @@ export const Topics = () => {
       </ul>
 
       <Switch>
-        <Route path={match.path + '/' + router.topics.children.topic.template}>
+        <Route path={match.path + router.topics.children.topic.template}>
           <Topic />
         </Route>
         <Route path={match.path}>
