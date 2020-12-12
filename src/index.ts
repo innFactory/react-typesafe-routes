@@ -50,4 +50,7 @@ const optionsRoute: OptionsRouteFn = optionsRouteFn;
 export const Router: RouterFn = routes => routes(optionsRoute(undefined));
 
 export const OptionsRouter: OptionsRouterFn = (options, routes) =>
-  Object.assign({ defaultOptions: options }, routes(optionsRoute(options)));
+  Object.assign(
+    { defaultOptions: options },
+    routes(optionsRoute(options))
+  ) as any;

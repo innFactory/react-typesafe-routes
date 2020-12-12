@@ -2,12 +2,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {
   BrowserRouter,
-  Route,
   Switch,
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
-import { Link, RouterSwitch, useRouteOptions, useRouteParams } from '..';
+import { Link, Route, RouterSwitch, useRouteOptions, useRouteParams } from '..';
 import { Redirect } from '../components';
 import { RouteMiddleware } from '../types';
 import { router } from './routes';
@@ -41,6 +40,7 @@ const App = () => {
       </ul>
       <p>Options: {JSON.stringify(options)}</p>
       <p>AppBar supposed to be visible: {options.appBar ? 'Yes' : 'No'}</p>
+
       <RouterSwitch router={router} />
     </div>
   );
@@ -70,14 +70,17 @@ export const Topics = () => {
 
       <ul>
         <li>
-          <Link to={router.topics().topic({ topicId: 'components' })}>
+          <Link
+            to={router.topics().topic({ topicId: 0, topicName: 'components' })}
+          >
             Components
           </Link>
         </li>
         <li>
           <Link
             to={router.topics().topic({
-              topicId: 'props-v-state',
+              topicId: 1,
+              topicName: 'props-v-state',
               limit: 668.5,
             })}
           >
@@ -87,7 +90,7 @@ export const Topics = () => {
       </ul>
 
       <Switch>
-        <Route path={match.path + router.topics.children.topic.template}>
+        <Route to={router.topics.children.topic}>
           <Topic />
         </Route>
         <Route path={match.path}>
@@ -99,11 +102,13 @@ export const Topics = () => {
 };
 
 export function Topic() {
-  let { topicId, limit } = useRouteParams(router.topics.children.topic);
+  let { topicId, topicName, limit } = useRouteParams(
+    router.topics.children.topic
+  );
 
   return (
     <h3>
-      Requested topic ID: {topicId}, limit:&nbsp;
+      Requested topic ID: {topicId}, Name: {topicName}, limit:&nbsp;
       {limit ? limit * 2 : 'unknown'}
     </h3>
   );

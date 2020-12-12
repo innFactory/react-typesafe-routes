@@ -95,14 +95,14 @@ export function routeFn<
       : undefined;
 
   // DEBUG:
-  console.log('routeFn', {
-    fullTemplate,
-    templateWithQuery,
-    parsedRoute,
-    options,
-    args,
-    this: this,
-  });
+  // console.log('routeFn', {
+  //   fullTemplate,
+  //   templateWithQuery,
+  //   parsedRoute,
+  //   options,
+  //   args,
+  //   this: this,
+  // });
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
@@ -122,6 +122,15 @@ export function routeFn<
             pathParams,
             this.previousPath
           );
+
+          console.log('routePath', {
+            templateWithQuery: templateWithQuery,
+            parsedRoute: parsedRoute,
+            rawParams: rawParams,
+            pathParams: pathParams,
+            queryParams: queryParams,
+            path: path,
+          });
 
           if (next === '$') {
             return path + stringify(queryParams, { addQueryPrefix: true });

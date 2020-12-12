@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { floatParser, OptionsRouter, stringParser } from '..';
+import { floatParser, intParser, OptionsRouter, stringParser } from '..';
 import { About, AuthMiddleware, Home, Restricted, Topics } from './react';
 
 const defaultOptions = {
@@ -26,10 +26,11 @@ export const router = OptionsRouter(defaultOptions, route => ({
       },
     },
     route => ({
-      topic: route(':topicId&:limit?', {
+      topic: route(':topicName/:topicId&:limit?', {
         component: () => <Topics />,
         params: {
-          topicId: stringParser,
+          topicName: stringParser,
+          topicId: intParser,
           limit: floatParser,
         },
       }),

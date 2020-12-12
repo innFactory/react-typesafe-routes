@@ -27,12 +27,10 @@ export const parseRoute = (
   const [pathTemplate, ...queryFragments] = pathWithQuery.split('&');
   const pathTokens = parseTokens(pathTemplate.split('/'));
   const queryTokens = parseTokens(queryFragments);
-  const pathParamParsers = paramsMap
-    ? filterParamsMap(paramsMap, pathTokens)
-    : {};
-  const queryParamParsers = paramsMap
-    ? filterParamsMap(paramsMap, queryTokens)
-    : {};
+  const pathParamParsers =
+    paramsMap !== undefined ? filterParamsMap(paramsMap, pathTokens) : {};
+  const queryParamParsers =
+    paramsMap !== undefined ? filterParamsMap(paramsMap, queryTokens) : {};
   return {
     pathTemplate,
     pathTokens,
@@ -68,7 +66,7 @@ export const stringifyParams = (
   Object.keys(paramsMap).reduce(
     (previous, current) => ({
       ...previous,
-      ...(params[current]
+      ...(params[current] !== undefined
         ? { [current]: paramsMap[current].serialize(params[current]) }
         : {}),
     }),
@@ -85,7 +83,7 @@ export const stringifyRoute = (
       pathTokens.reduce<string[]>(
         (acc, t) =>
           isPathParam(t)
-            ? params[t.name]
+            ? params[t.name] !== undefined
               ? acc.concat(encodeURIComponent(params[t.name]))
               : acc
             : acc.concat(t),
@@ -106,7 +104,7 @@ export const paramsParser = ({
     paramsMap
       ? (acc, k) => ({
           ...acc,
-          ...(paramsMap[k]
+          ...(paramsMap[k] !== undefined
             ? {
                 [k]: paramsMap[k].parse(params[k]),
               }

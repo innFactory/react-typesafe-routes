@@ -23,7 +23,7 @@ test('nested routes', () => {
 
   const router = OptionsRouter(options, route => ({
     group: route(
-      '/group/:groupId?&:filter?&:limit',
+      'group/:groupId?&:filter?&:limit',
       {
         component: () => <TestPage />,
         params: {
@@ -45,7 +45,7 @@ test('nested routes', () => {
           },
         }),
         settings: route(
-          '/settings/:settingsId',
+          'settings/:settingsId',
           {
             component: () => <TestPage />,
             params: {
@@ -53,10 +53,10 @@ test('nested routes', () => {
             },
           },
           route => ({
-            account: route('/account', {
+            account: route('account', {
               component: () => <TestPage />,
             }),
-            language: route('/lang/:lang', {
+            language: route('lang/:lang', {
               component: () => <TestPage />,
               params: {
                 lang: stringListParser(['de', 'en']),
@@ -66,7 +66,7 @@ test('nested routes', () => {
         ),
       })
     ),
-    product: route('/:name/:id&:tab?', {
+    product: route(':name/:id&:tab?', {
       component: () => <TestPage />,
       params: {
         id: intParser,
@@ -196,7 +196,7 @@ test('template', () => {
             },
           },
           route => ({
-            account: route('/account', {
+            account: route('account', {
               component: () => <TestPage />,
             }),
           })
@@ -216,7 +216,7 @@ test('nested options', () => {
   };
 
   const router = OptionsRouter(options, route => ({
-    home: route('/', {
+    home: route('', {
       component: () => <TestPage />,
     }),
     auth: route(
@@ -228,10 +228,10 @@ test('nested options', () => {
         },
       },
       route => ({
-        login: route('/login', {
+        login: route('login', {
           component: () => <TestPage />,
         }),
-        register: route('/register', {
+        register: route('register', {
           component: () => <TestPage />,
           options: {
             appBar: true,
@@ -260,7 +260,7 @@ test('middleware', () => {
   };
 
   const router = Router(route => ({
-    login: route('/login', {
+    login: route('login', {
       component: () => <LoginPage />,
     }),
     restricted: route(
@@ -270,7 +270,7 @@ test('middleware', () => {
         middleware: props => Middleware(props),
       },
       route => ({
-        dashboard: route('/dashboard', {
+        dashboard: route('dashboard', {
           component: () => <TestPage />,
         }),
       })
