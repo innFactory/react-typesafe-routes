@@ -95,14 +95,14 @@ export function routeFn<
       : undefined;
 
   // DEBUG:
-  console.log('routeFn', {
-    fullTemplate,
-    templateWithQuery,
-    parsedRoute,
-    options,
-    args,
-    this: this,
-  });
+  // console.log('routeFn', {
+  //   fullTemplate,
+  //   templateWithQuery,
+  //   parsedRoute,
+  //   options,
+  //   args,
+  //   this: this,
+  // });
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
