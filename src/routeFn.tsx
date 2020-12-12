@@ -123,14 +123,14 @@ export function routeFn<
             this.previousPath
           );
 
-          console.log('routePath', {
-            templateWithQuery: templateWithQuery,
-            parsedRoute: parsedRoute,
-            rawParams: rawParams,
-            pathParams: pathParams,
-            queryParams: queryParams,
-            path: path,
-          });
+          // console.log('routePath', {
+          //   templateWithQuery: templateWithQuery,
+          //   parsedRoute: parsedRoute,
+          //   rawParams: rawParams,
+          //   pathParams: pathParams,
+          //   queryParams: queryParams,
+          //   path: path,
+          // });
 
           if (next === '$') {
             return path + stringify(queryParams, { addQueryPrefix: true });
