@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -21,8 +21,7 @@
     "react": "tsdx build && yarn parcel src/react/index.html"
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "prettier": {
     "printWidth": 80,
