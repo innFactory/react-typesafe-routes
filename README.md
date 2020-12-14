@@ -19,23 +19,23 @@ const authMiddleware: RouteMiddleware = (next) => {
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    page: () => <HomePage />,
+    component: () => <HomePage />,
   }),
   login: route('/login', {
-    page: () => <LoginPage />,
+    component: () => <LoginPage />,
     options: { appBar: false }
   }),
   players: route(
     '/players',
     {
-      page: () => <PlayersPage />,
+      component: () => <PlayersPage />,
       middleware: next => authMiddleware(next),
     },
     (route) => ({
       info: route(
         '/:name/:id',
         {
-          page: () => <PlayerInfoPage />,
+          component: () => <PlayerInfoPage />,
           params: {
             name: stringParser,
             id: intParser
@@ -43,11 +43,11 @@ export const router = OptionsRouter(defaultOptions, route => ({
         },
         (route) => ({
           rating: route('/rating/:id', {
-            page: () => <PlayerRatingPage />,
+            component: () => <PlayerRatingPage />,
             params: { id: intParser },
           }),
           ban: route('/rating/:id', {
-            page: () => <PlayerRatingPage />,
+            component: () => <PlayerRatingPage />,
             params: { id: intParser },
           }),
         }),
