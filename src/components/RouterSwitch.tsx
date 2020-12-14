@@ -3,23 +3,20 @@ import { Route, Switch } from 'react-router-dom';
 import { AnyRouterType } from '../router';
 import { anyRouterToRouteList } from '../utils/routerUtils';
 
-interface Props {
-  router: AnyRouterType;
-}
-
-export function RouterSwitch(props: Props) {
-  const { router } = props;
-
+export const RouterSwitch = (props: { router: AnyRouterType }) => {
   return (
     <Switch>
-      {anyRouterToRouteList(router).map((route, index) => {
-        const Component = (route.render() as any)();
+      {anyRouterToRouteList(props.router).map((route, index) => {
+        const Component = route.render();
         return (
-          <Route key={index} path={`/${route.template}`}>
-            <Component />
-          </Route>
+          <Route
+            key={index}
+            path={`${route.fullTemplate}`}
+            exact={route.exact}
+            component={Component}
+          />
         );
       })}
     </Switch>
   );
-}
+};

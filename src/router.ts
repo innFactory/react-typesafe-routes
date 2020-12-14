@@ -16,7 +16,13 @@ export type OptionsRouterFn = <
 export type OptionsRouterType<
   RO extends RouteOptions,
   CRM extends ChildRouteMap<RO> = any
-> = { defaultOptions: RO } & { [K in keyof CRM]: CRM[K] };
+> = {
+  [key: string]: never;
+} & {
+  defaultOptions: RO;
+} & {
+    [K in keyof CRM]: CRM[K];
+  };
 
 export type RouterFn = <CRM extends ChildRouteMap<undefined>>(
   routes: RoutesFn<undefined, CRM>

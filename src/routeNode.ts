@@ -4,10 +4,10 @@ import {
   InferParamGroups,
   OptionalParamNames,
   RequiredParamNames,
+  RouteComponent,
+  RouteOptions,
   SerializedParams,
   TemplateParserMap,
-  RouteOptions,
-  RouteComponent,
 } from './types';
 
 export type RouteNodeBase<
@@ -15,11 +15,12 @@ export type RouteNodeBase<
   CRM extends ChildRouteMap<RO>,
   RO extends RouteOptions
 > = {
-  parentTemplate: string;
   component: RouteComponent;
   render: () => RouteComponent;
   templateWithQuery: T;
   template: string;
+  fullTemplate: string;
+  exact: boolean;
   options: RO extends undefined ? undefined : Required<RO>;
   children: CRM;
   includeChildren: boolean;
