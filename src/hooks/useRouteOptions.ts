@@ -6,14 +6,12 @@ import { RouteOptions } from '../types';
 export const useRouteOptions = <RO extends RouteOptions>(
   router: OptionsRouterType<RO>
 ): RO => {
-  const { pathname, search } = useLocation();
-
-  const location = pathname + search;
+  const { pathname } = useLocation();
 
   const routeList = routerToRouteList<RO>(router, true);
   const route = routeList.filter(
     route =>
-      matchPath(location, {
+      matchPath(pathname, {
         path: route.fullTemplate,
       }) != null
   );
