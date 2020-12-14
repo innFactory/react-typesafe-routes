@@ -1,5 +1,8 @@
 # React (Awesome) Typesafe Routes
 
+[![Version](https://img.shields.io/npm/v/react-typesafe-routes.svg)](https://www.npmjs.com/package/react-typesafe-routes)
+[![Downloads](https://img.shields.io/npm/dt/react-typesafe-routes.svg)](https://www.npmjs.com/package/react-typesafe-routes)
+
 The last routing library you will ever need in your React projects. (At least if you're using react-router–dom but also why wouldn't you?)
 
 ## Example
@@ -9,8 +12,8 @@ const defaultOptions = {
   appBar: true,
 };
 
-const authMiddleware: RouteMiddleware = (next) => {
-  if(isAuthenticated) {
+const authMiddleware: RouteMiddleware = next => {
+  if (isAuthenticated) {
     return next;
   } else {
     return () => <Redirect to={router.login()} />;
@@ -23,7 +26,7 @@ export const router = OptionsRouter(defaultOptions, route => ({
   }),
   login: route('/login', {
     component: () => <LoginPage />,
-    options: { appBar: false }
+    options: { appBar: false },
   }),
   players: route(
     '/players',
@@ -31,17 +34,17 @@ export const router = OptionsRouter(defaultOptions, route => ({
       component: () => <PlayersPage />,
       middleware: next => authMiddleware(next),
     },
-    (route) => ({
+    route => ({
       info: route(
         '/:name/:id',
         {
           component: () => <PlayerInfoPage />,
           params: {
             name: stringParser,
-            id: intParser
+            id: intParser,
           },
         },
-        (route) => ({
+        route => ({
           rating: route('/rating/:id', {
             component: () => <PlayerRatingPage />,
             params: { id: intParser },
@@ -50,13 +53,14 @@ export const router = OptionsRouter(defaultOptions, route => ({
             component: () => <PlayerRatingPage />,
             params: { id: intParser },
           }),
-        }),
+        })
       ),
-    }),
+    })
   ),
 }));
 ```
 
 ## Roadmap
+
 - Optional defaults for optional parameters
 - Parsing parent params in a nicer way
