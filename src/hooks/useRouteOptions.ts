@@ -1,5 +1,4 @@
 import { matchPath, useLocation } from 'react-router-dom';
-import * as _ from 'lodash';
 import { routerToRouteList } from '../utils/routerUtils';
 import { OptionsRouterType } from '../router';
 import { RouteOptions } from '../types';
@@ -7,17 +6,15 @@ import { RouteOptions } from '../types';
 export const useRouteOptions = <RO extends RouteOptions>(
   router: OptionsRouterType<RO>
 ): RO => {
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
 
-  const location = pathname + search;
-
-  const route = _.find(
-    routerToRouteList<RO>(router, true),
+  const routeList = routerToRouteList<RO>(router, true);
+  const route = routeList.filter(
     route =>
-      matchPath(location, {
-        path: route.parentTemplate + '/' + route.template,
+      matchPath(pathname, {
+        path: route.fullTemplate,
       }) != null
   );
 
-  return (route?.options as RO) ?? router.defaultOptions;
+  return (route[0]?.options as RO) ?? router.defaultOptions;
 };

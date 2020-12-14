@@ -1,3 +1,4 @@
+import { stringify } from 'qs';
 import { isRouteArgsWithParams, RouteFnArgs } from './routeArgs';
 import {
   isRouteNodeWithParams,
@@ -7,13 +8,12 @@ import {
   RouteNodeWithParams,
 } from './routeNode';
 import {
-  SerializedParams,
-  TemplateParserMap,
+  RawParams,
   RouteMiddleware,
   RouteOptions,
-  RawParams,
+  SerializedParams,
+  TemplateParserMap,
 } from './types';
-import { stringify } from 'qs';
 import {
   paramsParser,
   parseRoute,
@@ -60,20 +60,24 @@ export function routeFn<
   }
 
   const parsedRoute = parseRoute(templateWithQuery, params);
-  const options: Required<RO> = { ...this.previousOptions, ...args.options };
+  const fullTemplate = this.previousPath + '/' + parsedRoute.pathTemplate;
+  const options: Required<RO> = {
+    ...this.previousOptions,
+    ...args.options,
+  };
   var middleware: RouteMiddleware | undefined;
 
   if (this.previousMiddleware) {
     if (args.middleware) {
       middleware = next => {
-        return this.previousMiddleware!(() => args.middleware!(next));
+        return this.previousMiddleware!(args.middleware!(next));
       };
     } else {
       middleware = this.previousMiddleware;
     }
   } else {
     if (args.middleware) {
-      middleware = args.middleware;
+      middleware = props => args.middleware!(props);
     }
   }
 
@@ -91,18 +95,14 @@ export function routeFn<
       : undefined;
 
   // DEBUG:
-  // console.log({ templateWithQuery, children, _children });
-  // console.log(
-  //   'routeFn',
-  //   {
-  //     templateWithQuery,
-  //     parsedRoute,
-  //     childrenType: typeof children,
-  //     _children,
-  //     options,
-  //   },
-  //   this
-  // );
+  // console.log('routeFn', {
+  //   fullTemplate,
+  //   templateWithQuery,
+  //   parsedRoute,
+  //   options,
+  //   args,
+  //   this: this,
+  // });
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
@@ -123,17 +123,13 @@ export function routeFn<
             this.previousPath
           );
 
-          // console.log('routeFn get: ', {
-          //   templateWithQuery,
-          //   pathParamParsers: parsedRoute.pathParamParsers,
-          //   rawParams,
-          //   pathParams,
-          //   path,
-          //   children: {
-          //     children,
-          //     type: typeof children,
-          //     _children,
-          //   },
+          // console.log('routePath', {
+          //   templateWithQuery: templateWithQuery,
+          //   parsedRoute: parsedRoute,
+          //   rawParams: rawParams,
+          //   pathParams: pathParams,
+          //   queryParams: queryParams,
+          //   path: path,
           // });
 
           if (next === '$') {
@@ -184,14 +180,14 @@ export function routeFn<
     );
 
   var node: any = {
-    parentTemplate: this.previousPath,
+    fullTemplate: fullTemplate,
     templateWithQuery: templateWithQuery,
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),
     options: options,
-    component: args.component,
+    exact: args.exact ?? true,
     render: middleware
-      ? () => middleware!(() => args.component)
+      ? () => middleware!(args.component)
       : () => args.component,
     includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;
