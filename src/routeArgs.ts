@@ -51,7 +51,7 @@ type RouteFnBaseArgs<RO extends RouteOptions> = {
   includeChildren?: boolean;
 
   /**
-   * Wether or not to include this Routes child routes in a RouterSwitch.
+   * Wether or not this route is exact
    *
    * @default true
    */
