@@ -43,6 +43,8 @@ The last routing library you will ever need in your React projects. (At least if
 
 ## Installing
 
+Make sure you are using at least `Typescript 4.1.2` in your project. To find out what version you are using use `npm ls typescript`. There is a known issue with `react-scripts 4.0.1` still requiring `Typescript 3` but you can circumvent that by adding a `--legacy-peer-deps` to your install command.
+
 ```sh
 npm install react-typesafe-routes
 
