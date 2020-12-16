@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { Link, Route, RouterSwitch, useRouteOptions, useRouteParams } from '..';
 import { Redirect } from '../components';
+import { useRoutesActive } from '../hooks/useRoutesActive';
 import { RouteMiddleware } from '../types';
 import { router } from './routes';
 
@@ -19,23 +20,56 @@ const AppRoot = () => {
   );
 };
 
+const HighlightLink = (
+  props: React.PropsWithChildren<{
+    to: { $: string };
+    isActive: boolean;
+  }>
+) => {
+  const style: React.CSSProperties = {
+    color: 'blue',
+  };
+  const activeStyle: React.CSSProperties = {
+    color: 'red',
+  };
+  return (
+    <Link to={props.to} style={props.isActive ? activeStyle : style}>
+      {props.children}
+    </Link>
+  );
+};
+
 const App = () => {
   const options = useRouteOptions(router);
+  const { home, about, topics, restricted } = useRoutesActive({
+    home: router.home,
+    about: router.about,
+    topics: router.topics,
+    restricted: router.restricted,
+  });
 
   return (
     <div>
       <ul>
         <li>
-          <Link to={router.home()}>Home</Link>
+          <HighlightLink isActive={home} to={router.home()}>
+            Home
+          </HighlightLink>
         </li>
         <li>
-          <Link to={router.about()}>About</Link>
+          <HighlightLink isActive={about} to={router.about()}>
+            About
+          </HighlightLink>
         </li>
         <li>
-          <Link to={router.topics()}>Topics</Link>
+          <HighlightLink isActive={topics} to={router.topics()}>
+            Topics
+          </HighlightLink>
         </li>
         <li>
-          <Link to={router.restricted()}>Restricted</Link>
+          <HighlightLink isActive={restricted} to={router.restricted()}>
+            Restricted
+          </HighlightLink>
         </li>
       </ul>
       <p>Options: {JSON.stringify(options)}</p>

@@ -28,8 +28,10 @@ export type RouterFn = <CRM extends ChildRouteMap<undefined>>(
   routes: RoutesFn<undefined, CRM>
 ) => RouterType<CRM>;
 
-export type RouterType<CRM extends ChildRouteMap<undefined>> = {
+export type RouterType<CRM extends ChildRouteMap<any>> = {
   [K in keyof CRM]: CRM[K];
 };
 
-export type AnyRouterType = OptionsRouterType<any, any> | RouterType<any>;
+export type AnyRouterType<CRM extends ChildRouteMap<any> = any> =
+  | OptionsRouterType<CRM, any>
+  | RouterType<CRM>;
