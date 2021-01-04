@@ -5,6 +5,15 @@ import {
   RouteMiddleware,
 } from './types';
 
+/**
+ * RouteFnArgs with Paramers.
+ *
+ * @typeParam T - The routes template string
+ * @typeParam TPM - The map of template parsers
+ * @typeParam RO - The RouteOptions type
+ *
+ * @internal
+ */
 type RouteFnArgsWithParams<
   T extends string,
   TPM extends TemplateParserMap<T>,
@@ -13,12 +22,23 @@ type RouteFnArgsWithParams<
   params: TPM;
 };
 
+/**
+ * If the given RouteFnArgs has Parameters
+ * @internal
+ */
 export function isRouteArgsWithParams(
   args: any
 ): args is RouteFnArgsWithParams<any, any, any> {
   return args['params'] !== undefined;
 }
 
+/**
+ * The Route Function Arguments including required parameters if the template contains parameters
+ *
+ * @typeParam T - The routes template string
+ * @typeParam TPM - The map of template parsers
+ * @typeParam RO - The RouteOptions type
+ */
 export type RouteFnArgs<
   T extends string,
   TPM extends TemplateParserMap<T>,
@@ -27,6 +47,9 @@ export type RouteFnArgs<
   ? RouteFnBaseArgs<RO>
   : RouteFnArgsWithParams<T, TPM, RO>;
 
+/**
+ * The Base Route Function Arguments
+ */
 type RouteFnBaseArgs<RO extends RouteOptions> = {
   /**
    * The Component to be rendered on this route.
@@ -44,16 +67,40 @@ type RouteFnBaseArgs<RO extends RouteOptions> = {
   options?: Partial<RO>;
 
   /**
-   * Wether or not to include this Routes child routes in a RouterSwitch.
+   * Include this Routes child routes in a RouterSwitch.
    *
-   * @default true
+   * @defaultValue true
    */
   includeChildren?: boolean;
 
   /**
-   * Wether or not this route is exact
+   * When true, will only match if the path matches the location.pathname exactly.
    *
-   * @default true
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/exact-bool
+   *
+   * @defaultValue true
    */
   exact?: boolean;
+
+  /**
+   * When true, a path that has a trailing slash will only match a location.pathname
+   * with a trailing slash. This has no effect when there are additional URL segments in the location.pathname.
+   *
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/strict-bool
+   *
+   * @defaultValue false
+   */
+  strict?: boolean;
+
+  /**
+   * When true, will match if the path is case sensitive.
+   *
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/sensitive-bool
+   *
+   * @defaultValue false
+   */
+  sensitive?: boolean;
 };

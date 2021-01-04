@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { floatParser, intParser, OptionsRouter, stringParser } from '..';
+import {
+  floatParser,
+  intParser,
+  OptionsRouter,
+  stringParser,
+} from '../../dist';
 import { About, AuthMiddleware, Home, Restricted, Topics } from './react';
 
 const defaultOptions = {
@@ -7,7 +12,7 @@ const defaultOptions = {
 };
 
 export const router = OptionsRouter(defaultOptions, route => ({
-  home: route('home', {
+  home: route('', {
     component: () => <Home />,
   }),
   about: route('about', {
@@ -15,7 +20,7 @@ export const router = OptionsRouter(defaultOptions, route => ({
   }),
   restricted: route('restricted', {
     component: () => <Restricted />,
-    middleware: next => AuthMiddleware(next),
+    middleware: AuthMiddleware,
   }),
   topics: route(
     'topics',

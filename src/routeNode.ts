@@ -15,17 +15,82 @@ export type RouteNodeBase<
   CRM extends ChildRouteMap<RO>,
   RO extends RouteOptions
 > = {
+  /**
+   * The component for this route
+   */
   component: RouteComponent;
-  render: () => RouteComponent;
-  templateWithQuery: T;
-  template: string;
-  fullTemplate: string;
-  exact: boolean;
-  options: RO extends undefined ? undefined : Required<RO>;
-  children: CRM;
-  includeChildren: boolean;
-}; // & { [K in keyof CRM]: CRM[K] };
 
+  /**
+   * Render this route including executing all react-typesafe-routes#RouteMiddleware | The RouteMiddlewares that may have been defined
+   */
+  render: () => RouteComponent;
+
+  /**
+   * The Route template including the query template
+   */
+  templateWithQuery: T;
+
+  /**
+   * The Route template for react-router-dom
+   */
+  template: string;
+
+  /**
+   * The full Route template including parent route
+   */
+  fullTemplate: string;
+
+  /**
+   * When true, will only match if the path matches the location.pathname exactly.
+   *
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/exact-bool
+   *
+   * @defaultValue true
+   */
+  exact?: boolean;
+
+  /**
+   * When true, a path that has a trailing slash will only match a location.pathname
+   * with a trailing slash. This has no effect when there are additional URL segments in the location.pathname.
+   *
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/strict-bool
+   *
+   * @defaultValue false
+   */
+  strict?: boolean;
+
+  /**
+   * When true, will match if the path is case sensitive.
+   *
+   * @remark
+   * Taken from https://reactrouter.com/web/api/Route/sensitive-bool
+   *
+   * @defaultValue false
+   */
+  sensitive?: boolean;
+
+  /**
+   * The RouteOptions for this route with inherited parent options
+   */
+  options: RO extends undefined ? undefined : Required<RO>;
+
+  /**
+   * The child routes of this route
+   */
+  children: CRM;
+
+  /**
+   * The child routes of this route
+   */
+  includeChildren: boolean;
+};
+
+/**
+ * If the given RouteNode has Parameters
+ * @internal
+ */
 export function isRouteNodeWithParams(
   node: any
 ): node is RouteNodeWithParams<any, any, any, any> {

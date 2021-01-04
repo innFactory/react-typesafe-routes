@@ -1,5 +1,8 @@
 import { ParamParser } from "./paramParser";
 
+/**
+ * The React Component for a Route
+ */
 export type RouteComponent = React.ComponentType<any>;
 
 export type RouteOptions = Record<string, any> | undefined;

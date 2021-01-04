@@ -186,10 +186,12 @@ export function routeFn<
     children: _children ?? ({} as CRM),
     options: options,
     exact: args.exact ?? true,
+    strict: args.strict ?? false,
+    sensitive: args.sensitive ?? false,
+    includeChildren: args.includeChildren ?? true,
     render: middleware
       ? () => middleware!(args.component)
       : () => args.component,
-    includeChildren: args.includeChildren ?? true,
   } as RouteNodeBase<T, CRM, RO>;
 
   if (isRouteArgsWithParams(args)) {

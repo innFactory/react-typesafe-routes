@@ -5,6 +5,8 @@
 
 The last routing library you will ever need in your React projects. (At least if you're using react-router–dom but also why wouldn't you?)
 
+[Typedoc documentation](https://innfactory.github.io/react-typesafe-routes)
+
 ## Table of Contents
 
 - [React (Awesome) Typesafe Routes](#react-awesome-typesafe-routes)
@@ -30,6 +32,7 @@ The last routing library you will ever need in your React projects. (At least if
   - [Hooks](#hooks)
     - [useRouteOptions](#userouteoptions)
     - [useRouteParams](#userouteparams)
+    - [useRouteActive and useRoutesActive](#userouteactive-and-useroutesactive)
   - [Components](#components)
     - [RouterSwitch](#routerswitch)
     - [Link](#link)
@@ -39,7 +42,6 @@ The last routing library you will ever need in your React projects. (At least if
   - [Roadmap](#roadmap)
   - [Contributing](#contributing)
   - [License](#license)
-  - [Contributors](#contributors)
 
 ## Installing
 
@@ -62,33 +64,33 @@ const defaultOptions = {
   appBar: true,
 };
 
-const authMiddleware: RouteMiddleware = next => {
+const AuthMiddleware: RouteMiddleware = next => {
   if (isAuthenticated) {
     return next;
   } else {
-    return () => <Redirect to={router.login()} />;
+    return Redirect to={router.login()};
   }
 };
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    component: () => <HomePage />,
+    component: HomePage,
   }),
   login: route('/login', {
-    component: () => <LoginPage />,
+    component: LoginPage,
     options: { appBar: false },
   }),
   players: route(
     '/players',
     {
-      component: () => <PlayersPage />,
-      middleware: next => authMiddleware(next),
+      component: PlayersPage,
+      middleware: AuthMiddleware,
     },
     route => ({
       info: route(
         '/:name/:id',
         {
-          component: () => <PlayerInfoPage />,
+          component: PlayerInfoPage,
           params: {
             name: stringParser,
             id: intParser,
@@ -96,11 +98,11 @@ export const router = OptionsRouter(defaultOptions, route => ({
         },
         route => ({
           rating: route('/rating/:id', {
-            component: () => <PlayerRatingPage />,
+            component: PlayerRatingPage,
             params: { id: intParser },
           }),
           ban: route('/rating/:id', {
-            component: () => <PlayerRatingPage />,
+            component: PlayerRatingPage,
             params: { id: intParser },
           }),
         })
@@ -161,10 +163,10 @@ const defaultOptions = {
 
 const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    component: () => <HomePage />,
+    component: HomePage,
   }),
   login: route('/login', {
-    component: () => <LoginPage />,
+    component: LoginPage,
     options: { appBar: false }
   }),
 });
@@ -187,10 +189,10 @@ The Router is basically the same as the OptionsRouter but it doesn't have Option
 ```tsx
 const router = Router(route => ({
   home: route('/', {
-    component: () => <HomePage />,
+    component: HomePage,
   }),
   login: route('/login', {
-    component: () => <LoginPage />,
+    component: LoginPage,
   }),
 });
 
@@ -246,7 +248,7 @@ Basic parameters are defined with a colon in front of them.
 ```tsx
 const router = Route(route => ({
   test: route('test/:id', {
-    component: () => <TestPage />,
+    component: TestPage,
     params: {
       id: intParser,
     }
@@ -261,7 +263,7 @@ If you want a parameter to be optional you can add a question mark behind it. Op
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?', {
-    component: () => <TestPage />,
+    component: TestPage,
     params: {
       id: intParser,
     }
@@ -276,7 +278,7 @@ A query parameter has an ampersand in front of it, they can be chained and also 
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?&:filter&:page?', {
-    component: () => <TestPage />,
+    component: TestPage,
     params: {
       id: intParser,
       page: intParser,
@@ -293,7 +295,7 @@ Child routes can be defined with the third argument of the route function - Anot
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?&:filter&:page?', {
-    component: () => <TestPage />,
+    component: TestPage,
     params: {
       id: intParser,
       page: intParser,
@@ -309,22 +311,27 @@ const router = Route(route => ({
 
 A middleware is a special kind of function component that gets injected into your tree above your route. It also automatically applies to all child routes.
 
-Example for Firebase authentication:
+Example for a Firebase authentication middleware:
 ```tsx
 const AuthMiddleware: RouteMiddleware = (next) => {
-	if (firebase.auth().currentUser === null) {
-		return () => <Redirect to={router.login()} />;
+  // Get the FirebaseUser from state if your state make sure your state is
+  // persistent if not this won't work for you since the FirebaseUser will
+  // not be in the state in time.
+  // firebase.auth().currentUser won't work since it's not always up to date
+  const firebaseUser = useSelector((state: RootState) => state.firebaseUser);
+	if (firebaseUser === null) {
+		return Redirect to={router.login()};
 	}
 	return next;
 }
 
 export const router = Router(route => ({
   login: route('login', {
-    component: () => <Login />,
+    component: Login,
   }),
   restricted: route('restricted', {
-    component: () => <Restricted />,
-    middleware: next => AuthMiddleware(next),
+    component: Restricted,
+    middleware: AuthMiddleware,
   }),
 });
 ```
@@ -349,7 +356,7 @@ const testTabs = ['overview', 'statistics', 'comments'] as const;
 
 const router = Route(route => ({
   test: route('test&:tab', {
-    component: () => <TestPage />,
+    component: TestPage,
     params: {
       tab: stringListParser(testTabs),
     }
@@ -390,10 +397,10 @@ This is useful whenever you need those global route options of an [OptionsRouter
 const options = { appBar: true };
 const router = OptionsRouter(options, route => ({
   home: route('', {
-    component: () => <HomePage />
+    component: HomePage
   }),
   entry: route('entries/:id', {
-    component: () => <EntryPage />
+    component: EntryPage
     params: {
       id: intParser
     }
@@ -416,6 +423,53 @@ export const EntryPage = () => {
   const { id } = useRouteParams(router.entry);
 
   return <div>Entry {id}</div>;
+}
+```
+### useRouteActive and useRoutesActive
+
+This is the way to go when you need those parameters of your Route. Let's say you have to Router from right above.
+
+```tsx
+const HighlightLink = (
+  props: React.PropsWithChildren<{
+    to: { $: string };
+    isActive: boolean;
+  }>
+) => {
+  const style: React.CSSProperties = { color: 'blue' };
+  const activeStyle: React.CSSProperties = { color: 'red' };
+
+  return (
+    <Link to={props.to} style={props.isActive ? activeStyle : style}>
+      {props.children}
+    </Link>
+  );
+};
+
+export const App = () => {
+  // Check if a single route is active
+  const active = useRouteActive(router.home);
+
+  // Check if multiple routes are active
+  const { home, entry } = useRoutesActive({
+    home: router.home,
+    entry: router.entry,
+  });
+
+  return (
+    <ul>
+      <li>
+        <HighlightLink isActive={home} to={router.home()}>
+          Home
+        </HighlightLink>
+      </li>
+      <li>
+        <HighlightLink isActive={entry} to={router.entry()}>
+          Entry
+        </HighlightLink>
+      </li>
+    </ul>
+  );
 }
 ```
 
@@ -460,17 +514,20 @@ This is a simple wrapper Component for the `react-router-dom` Route.
 - Parsing parent params in a nicer way
 
 ## Contributing
-
 All contributions are welcome. Please open an issue about your request or bug fix before submitting a pull request.
 
-## License
-
-This project is licensed under the terms of the [MIT license](LICENSE).
-
-## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
     <td align="center"><a href="https://github.com/DevNico"><img src="https://avatars.githubusercontent.com/u/24965872?v=3?s=100" width="100px;" alt=""/><br /><sub><b>DevNico</b></sub></a><br /><a href="https://github.com/innFactory/react-typesafe-routes/commits?author=DevNico" title="Code">💻</a> <a href="https://github.com/innFactory/react-typesafe-routes/commits?author=DevNico" title="Documentation">📖</a></td>
+  </tr>
+</table>
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+## License
+
+This project is licensed under the terms of the [MIT license](LICENSE).

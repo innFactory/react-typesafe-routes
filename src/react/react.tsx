@@ -6,10 +6,16 @@ import {
   useHistory,
   useRouteMatch,
 } from 'react-router-dom';
-import { Link, Route, RouterSwitch, useRouteOptions, useRouteParams } from '..';
-import { Redirect } from '../components';
-import { useRoutesActive } from '../hooks/useRoutesActive';
-import { RouteMiddleware } from '../types';
+import {
+  Link,
+  Redirect,
+  Route,
+  RouteMiddleware,
+  RouterSwitch,
+  useRouteOptions,
+  useRouteParams,
+  useRoutesActive,
+} from '../../dist';
 import { router } from './routes';
 
 const AppRoot = () => {
@@ -80,13 +86,13 @@ const App = () => {
   );
 };
 
-export const AuthMiddleware: RouteMiddleware = next => {
+export const AuthMiddleware: RouteMiddleware = NextComponent => {
   const history = useHistory();
   // This does not make any sense and it's sole purpose is just to test if hooks work in the middleware.
   if (history.length > 3) {
     return () => <Redirect to={router.home()} />;
   }
-  return next;
+  return () => <NextComponent />;
 };
 
 export const Home = () => <h2>Home</h2>;
@@ -101,7 +107,6 @@ export const Topics = () => {
   return (
     <div>
       <h2>Topics</h2>
-
       <ul>
         <li>
           <Link
@@ -122,9 +127,8 @@ export const Topics = () => {
           </Link>
         </li>
       </ul>
-
       <Switch>
-        <Route to={router.topics.children.topic}>
+        <Route path={router.topics.children.topic.fullTemplate}>
           <Topic />
         </Route>
         <Route path={match.path}>
