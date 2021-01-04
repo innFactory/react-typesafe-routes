@@ -1,5 +1,6 @@
 # React (Awesome) Typesafe Routes
 
+![CI](https://github.com/innFactory/react-typesafe-routes/workflows/CI/badge.svg)
 [![Version](https://img.shields.io/npm/v/react-typesafe-routes.svg)](https://www.npmjs.com/package/react-typesafe-routes)
 [![Downloads](https://img.shields.io/npm/dt/react-typesafe-routes.svg)](https://www.npmjs.com/package/react-typesafe-routes)
 
