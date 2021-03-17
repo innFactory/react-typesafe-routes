@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "main"
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -22,7 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install deps and build (with cache)
+      - name: Install dependencies (with cache)
         uses: bahmutov/npm-install@v1
 
       # Linting disabled because Typescript 4.1 Template literals throw a parsing error
