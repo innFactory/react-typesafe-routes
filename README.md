@@ -416,7 +416,7 @@ const { appBar } = useRouteOptions(router);
 
 ### useRouteParams
 
-This is the way to go when you need those parameters of your Route. Let's say you have to Router from right above.
+This is the way to go when you need those parameters of your Route. Let's say you have the Router from right above.
 
 ```tsx
 export const EntryPage = () => {
@@ -428,7 +428,7 @@ export const EntryPage = () => {
 ```
 ### useRouteActive and useRoutesActive
 
-This is the way to go when you need those parameters of your Route. Let's say you have to Router from right above.
+This is the way to go when you need those parameters of your Route. Let's say you have the Router from right above.
 
 ```tsx
 const HighlightLink = (
