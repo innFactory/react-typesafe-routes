@@ -4,7 +4,7 @@ import { Link as OriginalLink } from 'react-router-dom';
 /**
  * Wrapper component for the `react-router-dom` Link replacing the `to` prop to accept a built route without the `.$` for convenience
  *
- * @see [https://reactrouter.com/web/api/Redirect](https://reactrouter.com/web/api/Link)
+ * @see [https://reactrouter.com/web/api/Navigate](https://reactrouter.com/web/api/Link)
  *
  * @example
  * ```tsx

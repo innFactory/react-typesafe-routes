@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {
   Link,
-  Redirect,
+  Navigate,
   Route,
   RouteMiddleware,
   RouterSwitch,
@@ -90,7 +90,7 @@ export const AuthMiddleware: RouteMiddleware = NextComponent => {
   const history = useHistory();
   // This does not make any sense and it's sole purpose is just to test if hooks work in the middleware.
   if (history.length > 3) {
-    return () => <Redirect to={router.home()} />;
+    return () => <Navigate to={router.home()} />;
   }
   return () => <NextComponent />;
 };

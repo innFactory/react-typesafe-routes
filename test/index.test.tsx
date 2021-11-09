@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {
   booleanParser,
   dateParser,
@@ -249,12 +249,12 @@ test('nested options', () => {
 test('middleware', () => {
   const LoginPage = () => <TestPage content="login" />;
   // This is a function because it needs access to router
-  const LoginRedirect = () => <Redirect to={router.login().$} />;
+  const LoginNavigate = () => <Navigate to={router.login().$} />;
 
   const Middleware: RouteMiddleware = next => {
     // eslint-disable-next-line no-self-compare
     if (true == true) {
-      return () => <LoginRedirect />;
+      return () => <LoginNavigate />;
     }
     return next;
   };
@@ -278,9 +278,9 @@ test('middleware', () => {
   }));
 
   expect((router.restricted.children.dashboard.render() as any)()).toEqual(
-    <LoginRedirect />
+    <LoginNavigate />
   );
-  expect((router.restricted.render() as any)()).toEqual(<LoginRedirect />);
+  expect((router.restricted.render() as any)()).toEqual(<LoginNavigate />);
   expect((router.login.render() as any)()).toEqual(<LoginPage />);
 });
 

@@ -4,7 +4,7 @@ import { NavLink as OriginalNavLink } from 'react-router-dom';
 /**
  * Wrapper component for the `react-router-dom` NavLink replacing the `to` prop to accept a built route without the `.$` for convenience
  *
- * @see [https://reactrouter.com/web/api/Redirect](https://reactrouter.com/web/api/NavLink)
+ * @see [https://reactrouter.com/web/api/Navigate](https://reactrouter.com/web/api/NavLink)
  *
  * @example
  * ```tsx

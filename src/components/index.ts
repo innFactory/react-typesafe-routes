@@ -1,5 +1,5 @@
 export * from './NavLink';
 export * from './Link';
-export * from './Redirect';
+export * from './Navigate';
 export * from './Route';
 export * from './RouterSwitch';

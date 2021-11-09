@@ -38,7 +38,7 @@ The last routing library you will ever need in your React projects. (At least if
     - [RouterSwitch](#routerswitch)
     - [Link](#link)
     - [NavLink](#navlink)
-    - [Redirect](#redirect)
+    - [Navigate](#navigate)
     - [Route](#route)
   - [Roadmap](#roadmap)
   - [Contributing](#contributing)
@@ -65,11 +65,11 @@ const defaultOptions = {
   appBar: true,
 };
 
-const AuthMiddleware: RouteMiddleware = next => {
+const AuthMiddleware: RouteMiddleware = (next) => {
   if (isAuthenticated) {
     return next;
   } else {
-    return Redirect to={router.login()};
+    return () => <Navigate to={router.login()} />;
   }
 };
 
@@ -321,7 +321,7 @@ const AuthMiddleware: RouteMiddleware = (next) => {
   // firebase.auth().currentUser won't work since it's not always up to date
   const firebaseUser = useSelector((state: RootState) => state.firebaseUser);
 	if (firebaseUser === null) {
-		return Redirect to={router.login()};
+		return () => <Navigate to={router.login()} />;
 	}
 	return next;
 }
@@ -496,11 +496,11 @@ This is a simple wrapper Component for the `react-router-dom` NavLink.
 ```tsx
 <NavLink to={router.home()}></NavLink>
 ```
-### Redirect
-This is a simple wrapper Component for the `react-router-dom` Redirect.
+### Navigate
+This is a simple wrapper Component for the `react-router-dom` Navigate.
 
 ```tsx
-<Redirect to={router.home()}></Redirect>
+<Navigate to={router.home()}></Navigate>
 ```
 ### Route
 This is a simple wrapper Component for the `react-router-dom` Route.
