@@ -8,6 +8,7 @@ import { anyRouterToRouteList } from '../utils/routerUtils';
  */
 interface RouterSwitchProps {
   router: AnyRouterType;
+  frame?: React.ReactElement;
 }
 
 /**
@@ -16,21 +17,27 @@ interface RouterSwitchProps {
  * @param props - Props containing the router to use
  */
 export const RouterSwitch = (props: RouterSwitchProps) => {
-  return (
-    <Switch>
-      {anyRouterToRouteList(props.router).map((route, index) => {
-        const Component = route.render();
-        return (
-          <Route
-            key={index}
-            path={route.fullTemplate}
-            exact={route.exact}
-            strict={route.strict}
-            sensitive={route.sensitive}
-            component={Component}
-          />
-        );
-      })}
-    </Switch>
-  );
+  const routes = anyRouterToRouteList(props.router).map((route, index) => {
+    const Component = route.render();
+    return (
+      <Route
+        key={index}
+        path={route.fullTemplate}
+        exact={route.exact}
+        strict={route.strict}
+        sensitive={route.sensitive}
+        component={Component}
+      />
+    );
+  });
+
+  if (props.frame !== undefined) {
+    const frame = React.cloneElement(props.frame, {
+      children: <>{routes}</>,
+    });
+
+    return <Switch>{frame}</Switch>;
+  }
+
+  return <Switch>{routes}</Switch>;
 };
