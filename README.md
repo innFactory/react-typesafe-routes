@@ -69,7 +69,7 @@ const AuthMiddleware: RouteMiddleware = next => {
   if (isAuthenticated) {
     return next;
   } else {
-    return Redirect to={router.login()};
+    return () => <Redirect to={router.login()} />;
   }
 };
 
@@ -321,7 +321,7 @@ const AuthMiddleware: RouteMiddleware = (next) => {
   // firebase.auth().currentUser won't work since it's not always up to date
   const firebaseUser = useSelector((state: RootState) => state.firebaseUser);
 	if (firebaseUser === null) {
-		return Redirect to={router.login()};
+		return () => <Redirect to={router.login()} />;
 	}
 	return next;
 }
