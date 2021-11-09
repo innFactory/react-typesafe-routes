@@ -12,7 +12,7 @@
     "react-router-dom"
   ],
   "license": "MIT",
-  "author": "Nicolas Schlecker (hi@nicolasschlecker.de)",
+  "author": "Nicolas Schlecker (nicolasschlecker@gmail.com)",
   "main": "dist/index.js",
   "module": "dist/react-typesafe-routes.esm.js",
   "typings": "dist/index.d.ts",
