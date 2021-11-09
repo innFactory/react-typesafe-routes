@@ -41,27 +41,6 @@ export type RouteNodeBase<
   fullTemplate: string;
 
   /**
-   * When true, will only match if the path matches the location.pathname exactly.
-   *
-   * @remark
-   * Taken from https://reactrouter.com/web/api/Route/exact-bool
-   *
-   * @defaultValue true
-   */
-  exact?: boolean;
-
-  /**
-   * When true, a path that has a trailing slash will only match a location.pathname
-   * with a trailing slash. This has no effect when there are additional URL segments in the location.pathname.
-   *
-   * @remark
-   * Taken from https://reactrouter.com/web/api/Route/strict-bool
-   *
-   * @defaultValue false
-   */
-  strict?: boolean;
-
-  /**
    * When true, will match if the path is case sensitive.
    *
    * @remark
@@ -69,7 +48,7 @@ export type RouteNodeBase<
    *
    * @defaultValue false
    */
-  sensitive?: boolean;
+  caseSensitive?: boolean;
 
   /**
    * The RouteOptions for this route with inherited parent options

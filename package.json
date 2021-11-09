@@ -89,5 +89,6 @@
       "path": "dist/react-typesafe-routes.esm.js",
       "limit": "10 KB"
     }
-  ]
+  ],
+  "dependencies": {}
 }

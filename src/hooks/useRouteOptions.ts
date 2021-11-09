@@ -46,10 +46,7 @@ export const useRouteOptions = <RO extends RouteOptions>(
 
   const routeList = routerToRouteList<RO>(router, true);
   const route = routeList.filter(
-    route =>
-      matchPath(pathname, {
-        path: route.fullTemplate,
-      }) != null
+    route => matchPath(pathname, route.fullTemplate) != null
   );
 
   return (route[0]?.options as RO) ?? router.defaultOptions;

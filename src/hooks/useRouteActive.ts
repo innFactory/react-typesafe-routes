@@ -19,19 +19,7 @@ import { AnyRouteNode } from '../routeNode';
  *
  * @returns         true if the given `route` is active or false if not
  */
-export const useRouteActive = (
-  route: AnyRouteNode,
-  options?: {
-    strict?: boolean;
-    exact?: boolean;
-  }
-): boolean => {
+export const useRouteActive = (route: AnyRouteNode): boolean => {
   const { pathname } = useLocation();
-  return (
-    matchPath(pathname, {
-      path: route.fullTemplate,
-      strict: options?.strict ?? route.strict,
-      exact: options?.exact ?? route.exact,
-    }) != null
-  );
+  return matchPath(pathname, route.fullTemplate) != null;
 };

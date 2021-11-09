@@ -35,7 +35,7 @@ The last routing library you will ever need in your React projects. (At least if
     - [useRouteParams](#userouteparams)
     - [useRouteActive and useRoutesActive](#userouteactive-and-useroutesactive)
   - [Components](#components)
-    - [RouterSwitch](#routerswitch)
+    - [RouterRoutes](#routerroutes)
     - [Link](#link)
     - [NavLink](#navlink)
     - [Navigate](#navigate)
@@ -75,23 +75,23 @@ const AuthMiddleware: RouteMiddleware = (next) => {
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    component: HomePage,
+    component: <HomePage />
   }),
   login: route('/login', {
-    component: LoginPage,
+    component: <LoginPage />
     options: { appBar: false },
   }),
   players: route(
     '/players',
     {
-      component: PlayersPage,
+      component: <PlayersPage />
       middleware: AuthMiddleware,
     },
     route => ({
       info: route(
         '/:name/:id',
         {
-          component: PlayerInfoPage,
+          component: <PlayerInfoPage />
           params: {
             name: stringParser,
             id: intParser,
@@ -99,11 +99,11 @@ export const router = OptionsRouter(defaultOptions, route => ({
         },
         route => ({
           rating: route('/rating/:id', {
-            component: PlayerRatingPage,
+            component: <PlayerRatingPage />
             params: { id: intParser },
           }),
           ban: route('/rating/:id', {
-            component: PlayerRatingPage,
+            component: <PlayerRatingPage />
             params: { id: intParser },
           }),
         })
@@ -136,7 +136,7 @@ const App = () => {
     <BrowserRouter>
       <div>
         { appBar && <AppBar />}
-        <RouterSwitch router={router} />
+        <RouterRoutes router={router} />
       </div>
     </BrowserRouter>
   );
@@ -164,10 +164,10 @@ const defaultOptions = {
 
 const router = OptionsRouter(defaultOptions, route => ({
   home: route('/', {
-    component: HomePage,
+    component: <HomePage />
   }),
   login: route('/login', {
-    component: LoginPage,
+    component: <LoginPage />
     options: { appBar: false }
   }),
 });
@@ -178,7 +178,7 @@ const App = () => {
   return (
     <div>
       {options.appBar && <AppBar>}
-      <RouterSwitch router={router} />
+      <RouterRoutes router={router} />
     </div>
   );
 };
@@ -190,17 +190,17 @@ The Router is basically the same as the OptionsRouter but it doesn't have Option
 ```tsx
 const router = Router(route => ({
   home: route('/', {
-    component: HomePage,
+    component: <HomePage />
   }),
   login: route('/login', {
-    component: LoginPage,
+    component: <LoginPage />
   }),
 });
 
 const App = () => {
   return (
     <div>
-      <RouterSwitch router={router} />
+      <RouterRoutes router={router} />
     </div>
   );
 };
@@ -230,11 +230,8 @@ const router = OptionsRouter(options, route => ({
       // Global options for this route
       options?: Partial<RO>;
 
-      // Wether or not to include this routes child routes in a RouterSwitch  - Defaults to true
+      // Wether or not to include this routes child routes in a RouterRoutes  - Defaults to true
       includeChildren?: boolean;
-
-      // Wether or not this route is exact - Defaults to true
-      exact?: boolean;
     }
   ),
 });
@@ -249,7 +246,7 @@ Basic parameters are defined with a colon in front of them.
 ```tsx
 const router = Route(route => ({
   test: route('test/:id', {
-    component: TestPage,
+    component: <TestPage />,
     params: {
       id: intParser,
     }
@@ -264,7 +261,7 @@ If you want a parameter to be optional you can add a question mark behind it. Op
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?', {
-    component: TestPage,
+    component: <TestPage />,
     params: {
       id: intParser,
     }
@@ -279,7 +276,7 @@ A query parameter has an ampersand in front of it, they can be chained and also 
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?&:filter&:page?', {
-    component: TestPage,
+    component: <TestPage />,
     params: {
       id: intParser,
       page: intParser,
@@ -296,7 +293,7 @@ Child routes can be defined with the third argument of the route function - Anot
 ```tsx
 const router = Route(route => ({
   test: route('test/:id?&:filter&:page?', {
-    component: TestPage,
+    component: <TestPage />,
     params: {
       id: intParser,
       page: intParser,
@@ -328,10 +325,10 @@ const AuthMiddleware: RouteMiddleware = (next) => {
 
 export const router = Router(route => ({
   login: route('login', {
-    component: Login,
+    component: <Login />,
   }),
   restricted: route('restricted', {
-    component: Restricted,
+    component: <Restricted />,
     middleware: AuthMiddleware,
   }),
 });
@@ -357,7 +354,7 @@ const testTabs = ['overview', 'statistics', 'comments'] as const;
 
 const router = Route(route => ({
   test: route('test&:tab', {
-    component: TestPage,
+    component: <TestPage />,
     params: {
       tab: stringListParser(testTabs),
     }
@@ -398,10 +395,10 @@ This is useful whenever you need those global route options of an [OptionsRouter
 const options = { appBar: true };
 const router = OptionsRouter(options, route => ({
   home: route('', {
-    component: HomePage
-  }),
+    component: <HomePage />
+    }),
   entry: route('entries/:id', {
-    component: EntryPage
+    component: <EntryPage />
     params: {
       id: intParser
     }
@@ -476,12 +473,12 @@ export const App = () => {
 
 ## Components
 
-### RouterSwitch
+### RouterRoutes
 
-This is what you would use instead of the `Switch` and `Route` from `react-router-dom`. You just give it your router and it automatically adds al the routes for you.
+This is what you would use instead of the `Routes` and `Route` from `react-router-dom`. You just give it your router and it automatically adds al the routes for you.
 
 ```tsx
-<RouterSwitch router={router}/>
+<RouterRoutes router={router}/>
 ```
 
 ### Link
