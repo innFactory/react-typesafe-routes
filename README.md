@@ -481,6 +481,22 @@ This is what you would use instead of the `Routes` and `Route` from `react-route
 <RouterRoutes router={router}/>
 ```
 
+You can optionally wrap all routes with a frame.
+
+
+```tsx
+const Frame: React.FC = ({children}) => {
+  return (
+    <>
+      <h1>Frame</h1>
+      {children}
+    </>
+  );
+}
+
+<RouterRoutes router={router} frame={<Frame />} />
+```
+
 ### Link
 This is a simple wrapper Component for the `react-router-dom` Link.
 
