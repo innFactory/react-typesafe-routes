@@ -8,7 +8,7 @@ import { anyRouterToRouteList } from '../utils/routerUtils';
  */
 interface RouterRoutesProps {
   router: AnyRouterType;
-  frame: React.ReactElement<React.PropsWithChildren<any>>;
+  frame?: React.ReactElement<React.PropsWithChildren<any>>;
 }
 
 /**
@@ -18,18 +18,18 @@ interface RouterRoutesProps {
  */
 export const RouterRoutes = (props: RouterRoutesProps) => {
   const routes = anyRouterToRouteList(props.router).map((route, index) => {
-    const Element = route.render();
+    // const Element = route.render();
     return (
       <Route
         key={index}
         path={route.fullTemplate}
         caseSensitive={route.caseSensitive}
-        element={Element}
+        element={route.component}
       />
     );
   });
 
-  if (props.frame) {
+  if (props.frame !== undefined) {
     const frame = React.cloneElement(props.frame, {
       children: <>{routes}</>,
     });

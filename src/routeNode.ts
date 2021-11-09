@@ -23,7 +23,7 @@ export type RouteNodeBase<
   /**
    * Render this route including executing all react-typesafe-routes#RouteMiddleware | The RouteMiddlewares that may have been defined
    */
-  render: () => RouteComponent;
+  // render: () => RouteComponent;
 
   /**
    * The Route template including the query template

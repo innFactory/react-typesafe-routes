@@ -13,26 +13,26 @@ const defaultOptions = {
 
 export const router = OptionsRouter(defaultOptions, route => ({
   home: route('', {
-    component: () => <Home />,
+    component: <Home />,
   }),
   about: route('about', {
-    component: () => <About />,
+    component: <About />,
   }),
   restricted: route('restricted', {
-    component: () => <Restricted />,
+    component: <Restricted />,
     middleware: AuthMiddleware,
   }),
   topics: route(
     'topics',
     {
-      component: () => <Topics />,
+      component: <Topics />,
       options: {
         appBar: false,
       },
     },
     route => ({
       topic: route(':topicName/:topicId&:limit?', {
-        component: () => <Topics />,
+        component: <Topics />,
         params: {
           topicName: stringParser,
           topicId: intParser,

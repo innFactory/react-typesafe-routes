@@ -1,17 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {
-  BrowserRouter,
-  Switch,
-  useHistory,
-  useRouteMatch,
-} from 'react-router-dom';
+import { BrowserRouter, Routes } from 'react-router-dom';
 import {
   Link,
   Navigate,
   Route,
   RouteMiddleware,
-  RouterSwitch,
+  RouterRoutes,
   useRouteOptions,
   useRouteParams,
   useRoutesActive,
@@ -81,29 +76,28 @@ const App = () => {
       <p>Options: {JSON.stringify(options)}</p>
       <p>AppBar supposed to be visible: {options.appBar ? 'Yes' : 'No'}</p>
 
-      <RouterSwitch router={router} />
+      <RouterRoutes router={router} />
     </div>
   );
 };
 
 export const AuthMiddleware: RouteMiddleware = NextComponent => {
-  const history = useHistory();
   // This does not make any sense and it's sole purpose is just to test if hooks work in the middleware.
-  if (history.length > 3) {
-    return () => <Navigate to={router.home()} />;
+  let a = 1;
+  let b = 1;
+  if (a == b) {
+    return <Navigate to={router.home()} />;
   }
-  return () => <NextComponent />;
+  return NextComponent;
 };
 
-export const Home = () => <h2>Home</h2>;
+export const Home: React.FC = () => <h2>Home</h2>;
 
-export const About = () => <h2>About</h2>;
+export const About: React.FC = () => <h2>About</h2>;
 
-export const Restricted = () => <h2>Restricted</h2>;
+export const Restricted: React.FC = () => <h2>Restricted</h2>;
 
-export const Topics = () => {
-  let match = useRouteMatch();
-
+export const Topics: React.FC = () => {
   return (
     <div>
       <h2>Topics</h2>
@@ -127,14 +121,14 @@ export const Topics = () => {
           </Link>
         </li>
       </ul>
-      <Switch>
+      <Routes>
         <Route path={router.topics.children.topic.fullTemplate}>
           <Topic />
         </Route>
-        <Route path={match.path}>
+        <Route>
           <h3>Please select a topic.</h3>
         </Route>
-      </Switch>
+      </Routes>
     </div>
   );
 };

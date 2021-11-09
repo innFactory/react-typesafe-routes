@@ -187,9 +187,7 @@ export function routeFn<
     options: options,
     caseSensitive: args.caseSensitive ?? false,
     includeChildren: args.includeChildren ?? true,
-    render: middleware
-      ? () => middleware!(args.component)
-      : () => args.component,
+    component: middleware ? middleware!(args.component) : args.component,
   } as RouteNodeBase<T, CRM, RO>;
 
   if (isRouteArgsWithParams(args)) {

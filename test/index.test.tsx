@@ -277,11 +277,11 @@ test('middleware', () => {
     ),
   }));
 
-  expect(router.restricted.children.dashboard.render()).toEqual(
+  expect(router.restricted.children.dashboard.component).toEqual(
     <LoginNavigate />
   );
-  expect(router.restricted.render()).toEqual(<LoginNavigate />);
-  expect(router.login.render()).toEqual(<LoginPage />);
+  expect(router.restricted.component).toEqual(<LoginNavigate />);
+  expect(router.login.component).toEqual(<LoginPage />);
 });
 
 test('nested pages', () => {
@@ -312,9 +312,9 @@ test('nested pages', () => {
     ),
   }));
 
-  expect(router.routeA.render()).toEqual(<TestPageA />);
-  expect(router.routeA.children.routeB.render()).toEqual(<TestPageB />);
-  expect(router.routeA.children.routeB.children.routeC.render()).toEqual(
+  expect(router.routeA.component).toEqual(<TestPageA />);
+  expect(router.routeA.children.routeB.component).toEqual(<TestPageB />);
+  expect(router.routeA.children.routeB.children.routeC.component).toEqual(
     <TestPageC />
   );
 });
