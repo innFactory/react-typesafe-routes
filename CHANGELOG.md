@@ -12,6 +12,9 @@ BREAKING:
   - the `exact` prop of a route does no longer exist. If you need your path to be deep matching add a `*` to the end
   - the `component` prop of the route function now requires a `React.ReactComponent` instead of a `React.ReactElement`.
 
+Features:
+  - add ability to wrap all routes in the `RouterRoutes` component with a frame component
+
 Fix:
 
   - use correct JSX syntax in `Middleware` documentation example
