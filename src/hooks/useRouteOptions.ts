@@ -6,9 +6,9 @@
  * @module react-typesafe-routes
  */
 import { matchPath, useLocation } from 'react-router-dom';
-import { routerToRouteList } from '../utils/routerUtils';
 import { OptionsRouterType } from '../router';
 import { RouteOptions } from '../types';
+import { routerToRouteList } from '../utils/routerUtils';
 
 /**
  * Returns the RouteOptions} of the given {@link OptionsRouter
@@ -45,12 +45,27 @@ export const useRouteOptions = <RO extends RouteOptions>(
   const { pathname } = useLocation();
 
   const routeList = routerToRouteList<RO>(router, true);
-  const route = routeList.filter(
-    route =>
-      matchPath(pathname, {
-        path: route.fullTemplate,
-      }) != null
-  );
+
+  // exclude wildcard route from list
+  const route = routeList
+    .filter((r) => r.fullTemplate !== '/*')
+    .filter(
+      (route) =>
+        matchPath(pathname, {
+          path: route.fullTemplate,
+          exact: true,
+          sensitive: true,
+          strict: true,
+        }) != null
+    );
+
+  // if route is empty, the options of the wildcard route would be returned or if undefined the defaultOptions will be returned
+  if (route.length === 0) {
+    const wildCard = routeList.filter((r) => r.fullTemplate === '/*');
+    if (wildCard.length === 1) {
+      return (wildCard[0]?.options as RO) ?? router.defaultOptions;
+    }
+  }
 
   return (route[0]?.options as RO) ?? router.defaultOptions;
 };
