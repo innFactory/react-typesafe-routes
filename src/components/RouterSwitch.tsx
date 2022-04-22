@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AnyRouterType } from '../router';
 import { anyRouterToRouteList } from '../utils/routerUtils';
 
@@ -23,10 +23,8 @@ export const RouterSwitch = (props: RouterSwitchProps) => {
       <Route
         key={index}
         path={route.fullTemplate}
-        exact={route.exact}
-        strict={route.strict}
-        sensitive={route.sensitive}
-        component={Component}
+        caseSensitive={route.sensitive}
+        element={Component}
       />
     );
   });
@@ -36,8 +34,8 @@ export const RouterSwitch = (props: RouterSwitchProps) => {
       children: <>{routes}</>,
     });
 
-    return <Switch>{frame}</Switch>;
+    return <Routes>{frame}</Routes>;
   }
 
-  return <Switch>{routes}</Switch>;
+  return <Routes>{routes}</Routes>;
 };

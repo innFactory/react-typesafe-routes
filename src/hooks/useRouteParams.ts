@@ -16,6 +16,6 @@ export const useRouteParams = <
   const { search } = useLocation();
   return route.parseParams({
     ...useParams(),
-    ...parse(search, { ignoreQueryPrefix: true, ...o }),
+    ...(parse(search, { ignoreQueryPrefix: true, ...o }) as any),
   }) as any;
 };

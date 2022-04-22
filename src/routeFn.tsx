@@ -54,12 +54,12 @@ export function routeFn<
   args: RouteFnArgs<T, TPM, RO>,
   children?: ChildrenRouterFn<RO, CRM>
 ): RouteNode<T, TPM, CRM, RO> {
-  var params: TemplateParserMap<T>;
+  let params: TemplateParserMap<T>;
   if (isRouteArgsWithParams(args)) {
     params = args.params;
   }
 
-  const parsedRoute = parseRoute(templateWithQuery, params);
+  const parsedRoute = parseRoute(templateWithQuery, params!);
   const fullTemplate = this.previousPath + '/' + parsedRoute.pathTemplate;
   const options: Required<RO> = {
     ...this.previousOptions,
@@ -195,7 +195,7 @@ export function routeFn<
   } as RouteNodeBase<T, CRM, RO>;
 
   if (isRouteArgsWithParams(args)) {
-    node.paramsMap = params;
+    node.paramsMap = params!;
     node.parseParams = paramsParser(parsedRoute);
   }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {
   booleanParser,
   dateParser,
@@ -25,7 +25,7 @@ test('nested routes', () => {
     group: route(
       'group/:groupId?&:filter?&:limit',
       {
-        component: () => <TestPage />,
+        component: <TestPage />,
         params: {
           groupId: stringParser,
           filter: booleanParser,
@@ -37,7 +37,7 @@ test('nested routes', () => {
       },
       route => ({
         item: route(':name/:id&:tab?', {
-          component: () => <TestPage />,
+          component: <TestPage />,
           params: {
             id: intParser,
             name: stringParser,
@@ -47,17 +47,17 @@ test('nested routes', () => {
         settings: route(
           'settings/:settingsId',
           {
-            component: () => <TestPage />,
+            component: <TestPage />,
             params: {
               settingsId: stringParser,
             },
           },
           route => ({
             account: route('account', {
-              component: () => <TestPage />,
+              component: <TestPage />,
             }),
             language: route('lang/:lang', {
-              component: () => <TestPage />,
+              component: <TestPage />,
               params: {
                 lang: stringListParser(['de', 'en']),
               },
@@ -67,7 +67,7 @@ test('nested routes', () => {
       })
     ),
     product: route(':name/:id&:tab?', {
-      component: () => <TestPage />,
+      component: <TestPage />,
       params: {
         id: intParser,
         name: stringParser,
@@ -110,7 +110,7 @@ test('param parser', () => {
     group: route(
       '/group/:groupId?&:filter?&:limit&:date?',
       {
-        component: () => <TestPage />,
+        component: <TestPage />,
         params: {
           groupId: stringParser,
           filter: booleanParser,
@@ -120,7 +120,7 @@ test('param parser', () => {
       },
       route => ({
         item: route(':name/:id&:tab?', {
-          component: () => <TestPage />,
+          component: <TestPage />,
           params: {
             id: intParser,
             name: stringParser,
@@ -176,7 +176,7 @@ test('template', () => {
     group: route(
       '/group/:groupId?&:filter?&:limit',
       {
-        component: () => <TestPage />,
+        component: <TestPage />,
         params: {
           groupId: stringParser,
           filter: booleanParser,
@@ -190,14 +190,14 @@ test('template', () => {
         settings: route(
           '/settings/:settingsId',
           {
-            component: () => <TestPage />,
+            component: <TestPage />,
             params: {
               settingsId: stringParser,
             },
           },
           route => ({
             account: route('account', {
-              component: () => <TestPage />,
+              component: <TestPage />,
             }),
           })
         ),
@@ -217,22 +217,22 @@ test('nested options', () => {
 
   const router = OptionsRouter(options, route => ({
     home: route('', {
-      component: () => <TestPage />,
+      component: <TestPage />,
     }),
     auth: route(
       '/auth',
       {
-        component: () => <TestPage />,
+        component: <TestPage />,
         options: {
           appBar: false,
         },
       },
       route => ({
         login: route('login', {
-          component: () => <TestPage />,
+          component: <TestPage />,
         }),
         register: route('register', {
-          component: () => <TestPage />,
+          component: <TestPage />,
           options: {
             appBar: true,
           },
@@ -249,39 +249,39 @@ test('nested options', () => {
 test('middleware', () => {
   const LoginPage = () => <TestPage content="login" />;
   // This is a function because it needs access to router
-  const LoginRedirect = () => <Redirect to={router.login().$} />;
+  const LoginRedirect = () => <Navigate to={router.login().$} replace />;
 
   const Middleware: RouteMiddleware = next => {
     // eslint-disable-next-line no-self-compare
     if (true == true) {
-      return () => <LoginRedirect />;
+      return <LoginRedirect />;
     }
     return next;
   };
 
   const router = Router(route => ({
     login: route('login', {
-      component: () => <LoginPage />,
+      component: <LoginPage />,
     }),
     restricted: route(
       '/restricted',
       {
-        component: () => <TestPage />,
+        component: <TestPage />,
         middleware: props => Middleware(props),
       },
       route => ({
         dashboard: route('dashboard', {
-          component: () => <TestPage />,
+          component: <TestPage />,
         }),
       })
     ),
   }));
 
-  expect((router.restricted.children.dashboard.render() as any)()).toEqual(
+  expect(router.restricted.children.dashboard.render() as any).toEqual(
     <LoginRedirect />
   );
-  expect((router.restricted.render() as any)()).toEqual(<LoginRedirect />);
-  expect((router.login.render() as any)()).toEqual(<LoginPage />);
+  expect(router.restricted.render() as any).toEqual(<LoginRedirect />);
+  expect(router.login.render() as any).toEqual(<LoginPage />);
 });
 
 test('nested pages', () => {
@@ -293,18 +293,18 @@ test('nested pages', () => {
     routeA: route(
       'a',
       {
-        component: () => <TestPageA />,
+        component: <TestPageA />,
       },
       route => ({
         routeB: route(
           'b',
           {
-            component: () => <TestPageB />,
+            component: <TestPageB />,
           },
 
           route => ({
             routeC: route('c', {
-              component: () => <TestPageC />,
+              component: <TestPageC />,
             }),
           })
         ),
@@ -312,11 +312,9 @@ test('nested pages', () => {
     ),
   }));
 
-  expect((router.routeA.render() as any)()).toEqual(<TestPageA />);
-  expect((router.routeA.children.routeB.render() as any)()).toEqual(
-    <TestPageB />
+  expect(router.routeA.render() as any).toEqual(<TestPageA />);
+  expect(router.routeA.children.routeB.render() as any).toEqual(<TestPageB />);
+  expect(router.routeA.children.routeB.children.routeC.render() as any).toEqual(
+    <TestPageC />
   );
-  expect(
-    (router.routeA.children.routeB.children.routeC.render() as any)()
-  ).toEqual(<TestPageC />);
 });

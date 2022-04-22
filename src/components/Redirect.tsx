@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Redirect as OriginalRedirect, RedirectProps } from 'react-router-dom';
+import { Navigate, NavigateProps } from 'react-router-dom';
 
 /**
  * Wrapper component for the `react-router-dom` Redirect replacing the `to` prop to accept a built route without the `.$` for convenience
@@ -17,7 +17,7 @@ import { Redirect as OriginalRedirect, RedirectProps } from 'react-router-dom';
  * ```
  */
 export const Redirect = (
-  p: Omit<RedirectProps, 'to'> & {
+  p: Omit<NavigateProps, 'to'> & {
     to: { $: string };
   }
-) => <OriginalRedirect {...p} to={p.to.$} />;
+) => <Navigate {...p} to={p.to.$} replace />;
