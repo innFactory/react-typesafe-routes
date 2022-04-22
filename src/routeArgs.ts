@@ -1,8 +1,8 @@
 import {
-  TemplateParserMap,
-  RouteOptions,
   RouteComponent,
   RouteMiddleware,
+  RouteOptions,
+  TemplateParserMap,
 } from './types';
 
 /**
