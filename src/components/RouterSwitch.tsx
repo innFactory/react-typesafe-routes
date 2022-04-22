@@ -24,7 +24,7 @@ export const RouterSwitch = (props: RouterSwitchProps) => {
         key={index}
         path={route.fullTemplate}
         caseSensitive={route.sensitive}
-        element={Component}
+        element={Component as any}
       />
     );
   });
