@@ -75,11 +75,11 @@
   "size-limit": [
     {
       "path": "dist/react-typesafe-routes.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     },
     {
       "path": "dist/react-typesafe-routes.esm.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     }
   ]
 }
