@@ -48,20 +48,21 @@ export const useRouteOptions = <RO extends RouteOptions>(
 
   // exclude wildcard route from list
   const route = routeList
-    .filter((r) => r.fullTemplate !== '/*')
+    .filter(r => r.fullTemplate !== '/*')
     .filter(
-      (route) =>
-        matchPath(pathname, {
-          path: route.fullTemplate,
-          exact: true,
-          sensitive: true,
-          strict: true,
-        }) != null
+      route =>
+        matchPath(
+          {
+            path: route.fullTemplate,
+            caseSensitive: true,
+          },
+          pathname
+        ) != null
     );
 
   // if route is empty, the options of the wildcard route would be returned or if undefined the defaultOptions will be returned
   if (route.length === 0) {
-    const wildCard = routeList.filter((r) => r.fullTemplate === '/*');
+    const wildCard = routeList.filter(r => r.fullTemplate === '/*');
     if (wildCard.length === 1) {
       return (wildCard[0]?.options as RO) ?? router.defaultOptions;
     }

@@ -6,7 +6,7 @@ import { AnyRouteNode } from '../routeNode';
  * Wrapper component for the `react-router-dom` Route adding
  * a `to` propto accept a `RouteNode` for convenience. It
  * uses the full route template including parent paths.
- * It also applies `strict`, `sensitive` and `exact` setting of the given `route`.
+ * It also applies `caseSensitive` setting of the given `route`.
  *
  * @remark
  * `path` prop overrides the given routes template
@@ -31,8 +31,6 @@ export const Route = (
   <OriginalRoute
     {...p}
     path={p.to?.fullTemplate ?? p.path}
-    strict={p.to?.strict ?? p.strict ?? false}
-    exact={p.to?.exact ?? p.exact ?? false}
-    sensitive={p.to?.sensitive ?? p.sensitive ?? false}
+    caseSensitive={p.to?.sensitive ?? p.caseSensitive ?? false}
   />
 );

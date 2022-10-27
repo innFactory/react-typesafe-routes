@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AnyRouterType } from '../router';
+import { RouteComponent } from '../types';
 import { anyRouterToRouteList } from '../utils/routerUtils';
 
 /**
@@ -18,15 +19,13 @@ interface RouterSwitchProps {
  */
 export const RouterSwitch = (props: RouterSwitchProps) => {
   const routes = anyRouterToRouteList(props.router).map((route, index) => {
-    const Component = route.render();
+    const Component: RouteComponent = route.render();
     return (
       <Route
         key={index}
         path={route.fullTemplate}
-        exact={route.exact}
-        strict={route.strict}
-        sensitive={route.sensitive}
-        component={Component}
+        caseSensitive={route.sensitive}
+        children={<Component />}
       />
     );
   });
@@ -36,8 +35,8 @@ export const RouterSwitch = (props: RouterSwitchProps) => {
       children: <>{routes}</>,
     });
 
-    return <Switch>{frame}</Switch>;
+    return <Routes>{frame}</Routes>;
   }
 
-  return <Switch>{routes}</Switch>;
+  return <Routes>{routes}</Routes>;
 };
