@@ -122,12 +122,16 @@ const AppBar = () => {
   return (
     <div>
       <ul>
-        <li><Link to={router.home()}>Home</Link></li>
-        <li><Link to={router.player()}>Players</Link></li>
+        <li>
+          <Link to={router.home()}>Home</Link>
+        </li>
+        <li>
+          <Link to={router.player()}>Players</Link>
+        </li>
       </ul>
     </div>
   );
-}
+};
 
 const App = () => {
   const { appBar } = useRouteOptions(router);
@@ -135,28 +139,33 @@ const App = () => {
   return (
     <BrowserRouter>
       <div>
-        { appBar && <AppBar />}
+        {appBar && <AppBar />}
         <RouterSwitch router={router} />
       </div>
     </BrowserRouter>
   );
-}
+};
 ```
 
 ### Route programatically
 
 To go to a route programmatically / without a `Link` Component:
+
 ```ts
-const history = useHistory();
-history.push(router.players().player({ id: 1, name: 'playerName' }).$);
+const navigate = useNavigate();
+navigate(router.players().player({ id: 1, name: 'playerName' }).$);
 ```
+
 The function will require you to input required parameters and don't forget the dollar sign at the end.
+
 ## Types of Routers
 
 ### OptionsRouter
+
 This is the router most people will probably use. It supports Global options that configurable on a per Route basis and they automatically apply for child routes.
 
 For example the login route is supposed to be full screen and doesn't require the AppBar.
+
 ```tsx
 const defaultOptions = {
   appBar: true,
@@ -185,6 +194,7 @@ const App = () => {
 ```
 
 ### Router
+
 The Router is basically the same as the OptionsRouter but it doesn't have Options as the name already implied. No idea why you would need this but it's there just in case.
 
 ```tsx
@@ -209,6 +219,7 @@ const App = () => {
 ## Routes
 
 Routes can only be create inside an [OptionsRouter](#optionsrouter) or a [Router](#router).
+
 ```tsx
 const options = { appBar: true };
 const router = OptionsRouter(options, route => ({
@@ -232,16 +243,15 @@ const router = OptionsRouter(options, route => ({
 
       // Wether or not to include this routes child routes in a RouterSwitch  - Defaults to true
       includeChildren?: boolean;
-
-      // Wether or not this route is exact - Defaults to true
-      exact?: boolean;
     }
   ),
 });
 ```
 
 ### Route Template and Parameters
+
 Every route **requires** a component to be defined and for every parameter you define you are **required** to define a parser.
+
 #### Basic parameters
 
 Basic parameters are defined with a colon in front of them.
@@ -252,8 +262,8 @@ const router = Route(route => ({
     component: TestPage,
     params: {
       id: intParser,
-    }
-  })
+    },
+  }),
 }));
 ```
 
@@ -267,8 +277,8 @@ const router = Route(route => ({
     component: TestPage,
     params: {
       id: intParser,
-    }
-  })
+    },
+  }),
 }));
 ```
 
@@ -284,27 +294,31 @@ const router = Route(route => ({
       id: intParser,
       page: intParser,
       filter: stringParser,
-    }
-  })
+    },
+  }),
 }));
 ```
 
-
 #### Child Routes
+
 Child routes can be defined with the third argument of the route function - Another route function!
 
 ```tsx
 const router = Route(route => ({
-  test: route('test/:id?&:filter&:page?', {
-    component: TestPage,
-    params: {
-      id: intParser,
-      page: intParser,
-      filter: stringParser,
-    }
-  }, route => ({
-    child: route('test')
-  })),
+  test: route(
+    'test/:id?&:filter&:page?',
+    {
+      component: TestPage,
+      params: {
+        id: intParser,
+        page: intParser,
+        filter: stringParser,
+      },
+    },
+    route => ({
+      child: route('test'),
+    })
+  ),
 }));
 ```
 
@@ -313,6 +327,7 @@ const router = Route(route => ({
 A middleware is a special kind of function component that gets injected into your tree above your route. It also automatically applies to all child routes.
 
 Example for a Firebase authentication middleware:
+
 ```tsx
 const AuthMiddleware: RouteMiddleware = (next) => {
   // Get the FirebaseUser from state if your state make sure your state is
@@ -338,10 +353,13 @@ export const router = Router(route => ({
 ```
 
 ## Parameter Parsers
+
 Every parameter has a parser which makes [useRouteParams](#userouteparams) possible.
 
 ### Available Parsers
+
 The following are self explanatory:
+
 - stringParser
 - floatParser
 - intParser
@@ -360,8 +378,8 @@ const router = Route(route => ({
     component: TestPage,
     params: {
       tab: stringListParser(testTabs),
-    }
-  })
+    },
+  }),
 }));
 ```
 
@@ -386,6 +404,7 @@ export const intParser: ParamParser<number> = {
   serialize: x => x.toString(),
 };
 ```
+
 ## Hooks
 
 There are a few complementary Hooks to make your life easier.
@@ -424,8 +443,9 @@ export const EntryPage = () => {
   const { id } = useRouteParams(router.entry);
 
   return <div>Entry {id}</div>;
-}
+};
 ```
+
 ### useRouteActive and useRoutesActive
 
 This is the way to go when you need those parameters of your Route. Let's say you have the Router from right above.
@@ -471,7 +491,7 @@ export const App = () => {
       </li>
     </ul>
   );
-}
+};
 ```
 
 ## Components
@@ -481,28 +501,35 @@ export const App = () => {
 This is what you would use instead of the `Switch` and `Route` from `react-router-dom`. You just give it your router and it automatically adds al the routes for you.
 
 ```tsx
-<RouterSwitch router={router}/>
+<RouterSwitch router={router} />
 ```
 
 ### Link
+
 This is a simple wrapper Component for the `react-router-dom` Link.
 
 ```tsx
 <Link to={router.home()}></Link>
 ```
+
 ### NavLink
+
 This is a simple wrapper Component for the `react-router-dom` NavLink.
 
 ```tsx
 <NavLink to={router.home()}></NavLink>
 ```
+
 ### Redirect
+
 This is a simple wrapper Component for the `react-router-dom` Redirect.
 
 ```tsx
 <Redirect to={router.home()}></Redirect>
 ```
+
 ### Route
+
 This is a simple wrapper Component for the `react-router-dom` Route.
 
 ```tsx
@@ -515,6 +542,7 @@ This is a simple wrapper Component for the `react-router-dom` Route.
 - Parsing parent params in a nicer way
 
 ## Contributing
+
 All contributions are welcome. Please open an issue about your request or bug fix before submitting a pull request.
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -529,6 +557,7 @@ All contributions are welcome. Please open an issue about your request or bug fi
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## License
 
 This project is licensed under the terms of the [MIT license](LICENSE).

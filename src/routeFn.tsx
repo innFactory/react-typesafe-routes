@@ -21,7 +21,7 @@ import {
   stringifyRoute,
 } from './utils/routeUtils';
 
-export type ChildRouteMap<RO> = Record<
+export type ChildRouteMap<RO extends RouteOptions> = Record<
   string,
   RouteNodeWithParams<any, any, any, RO> | RouteNodeWithoutParams<any, any, RO>
 >;
@@ -54,7 +54,7 @@ export function routeFn<
   args: RouteFnArgs<T, TPM, RO>,
   children?: ChildrenRouterFn<RO, CRM>
 ): RouteNode<T, TPM, CRM, RO> {
-  var params: TemplateParserMap<T>;
+  var params: TemplateParserMap<T> | undefined;
   if (isRouteArgsWithParams(args)) {
     params = args.params;
   }
@@ -185,8 +185,6 @@ export function routeFn<
     template: parsedRoute.pathTemplate,
     children: _children ?? ({} as CRM),
     options: options,
-    exact: args.exact ?? true,
-    strict: args.strict ?? false,
     sensitive: args.sensitive ?? false,
     includeChildren: args.includeChildren ?? true,
     render: middleware

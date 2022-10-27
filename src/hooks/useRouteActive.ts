@@ -15,23 +15,17 @@ import { AnyRouteNode } from '../routeNode';
  * ```
  *
  * @param route     The RouteNode to use.
- * @param options   Override strict and exact of the given route
  *
  * @returns         true if the given `route` is active or false if not
  */
-export const useRouteActive = (
-  route: AnyRouteNode,
-  options?: {
-    strict?: boolean;
-    exact?: boolean;
-  }
-): boolean => {
+export const useRouteActive = (route: AnyRouteNode): boolean => {
   const { pathname } = useLocation();
   return (
-    matchPath(pathname, {
-      path: route.fullTemplate,
-      strict: options?.strict ?? route.strict,
-      exact: options?.exact ?? route.exact,
-    }) != null
+    matchPath(
+      {
+        path: route.fullTemplate,
+      },
+      pathname
+    ) != null
   );
 };

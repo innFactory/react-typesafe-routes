@@ -96,10 +96,7 @@ export const paramsParser = ({
   pathTokens,
   queryTokens,
   paramsMap,
-}: ParsedRouteMeta) => (
-  params: SerializedParams,
-  strict = false
-): RawParams => {
+}: ParsedRouteMeta) => (params: SerializedParams): RawParams => {
   const parsedParams = Object.keys(params).reduce<RawParams>(
     paramsMap
       ? (acc, k) => ({
@@ -113,18 +110,16 @@ export const paramsParser = ({
       : (acc, _) => ({ ...acc }),
     {}
   );
-  if (strict) {
-    pathTokens.concat(queryTokens).forEach(t => {
-      if (
-        isPathParam(t) &&
-        ['', '+'].includes(t.modifier) &&
-        !parsedParams[t.name]
-      ) {
-        throw Error(
-          `[parseParams]: parameter "${t.name}" is required but is not defined`
-        );
-      }
-    });
-  }
+  pathTokens.concat(queryTokens).forEach(t => {
+    if (
+      isPathParam(t) &&
+      ['', '+'].includes(t.modifier) &&
+      !parsedParams[t.name]
+    ) {
+      throw Error(
+        `[parseParams]: parameter "${t.name}" is required but is not defined`
+      );
+    }
+  });
   return parsedParams;
 };

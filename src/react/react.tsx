@@ -1,14 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {
-  BrowserRouter,
-  Switch,
-  useHistory,
-  useRouteMatch,
-} from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes } from 'react-router-dom';
 import {
   Link,
-  Redirect,
   Route,
   RouteMiddleware,
   RouterSwitch,
@@ -87,12 +81,11 @@ const App = () => {
 };
 
 export const AuthMiddleware: RouteMiddleware = NextComponent => {
-  const history = useHistory();
   // This does not make any sense and it's sole purpose is just to test if hooks work in the middleware.
   if (history.length > 3) {
-    return () => <Redirect to={router.home()} />;
+    return () => <Navigate to={router.home().$} />;
   }
-  return () => <NextComponent />;
+  return NextComponent;
 };
 
 export const Home = () => <h2>Home</h2>;
@@ -102,8 +95,6 @@ export const About = () => <h2>About</h2>;
 export const Restricted = () => <h2>Restricted</h2>;
 
 export const Topics = () => {
-  let match = useRouteMatch();
-
   return (
     <div>
       <h2>Topics</h2>
@@ -127,14 +118,14 @@ export const Topics = () => {
           </Link>
         </li>
       </ul>
-      <Switch>
+      <Routes>
         <Route path={router.topics.children.topic.fullTemplate}>
           <Topic />
         </Route>
-        <Route path={match.path}>
+        <Route path={'*'}>
           <h3>Please select a topic.</h3>
         </Route>
-      </Switch>
+      </Routes>
     </div>
   );
 };

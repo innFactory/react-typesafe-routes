@@ -1,6 +1,6 @@
 {
   "name": "react-typesafe-routes",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "The last routing library you will ever need in your react projects - Completely typesafe and easy to use.",
   "keywords": [
     "typesafe-routing",
@@ -39,48 +39,47 @@
     "trailingComma": "es5"
   },
   "resolutions": {
-    "**/@typescript-eslint/eslint-plugin": "^4.9.0",
-    "**/@typescript-eslint/parser": "^4.9.0",
-    "**/typescript": "4.1.2"
+    "**/@typescript-eslint/eslint-plugin": "^5.41.0",
+    "**/@typescript-eslint/parser": "^5.41.0",
+    "**/typescript": "4.8.4"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.9.0",
     "@types/qs": "^6.9.5",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
-    "@types/react-router-dom": "^5.1.6",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
     "gh-pages": "^3.1.0",
     "husky": "^4.3.0",
     "parcel": "^1.12.4",
     "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "5.2.0",
+    "react-router-dom": "6.4.2",
     "size-limit": "^4.9.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.3",
     "typedoc": "^0.20.10",
-    "typescript": "4.1.2"
+    "typescript": "4.8.4"
   },
   "peerDependencies": {
     "react": ">=16",
     "react-dom": ">=16",
-    "react-router-dom": "5.2.0",
-    "typescript": "^4.1.0"
+    "react-router-dom": "6.4.2",
+    "typescript": "^4.8.4"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "size-limit": [
     {
       "path": "dist/react-typesafe-routes.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     },
     {
       "path": "dist/react-typesafe-routes.esm.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     }
   ]
 }

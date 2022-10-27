@@ -22,28 +22,24 @@ import { ChildRouteMap } from '../routeFn';
  *
  * @typeParam CRM - The Map of RouteNodes
  * @param routes - The RouteNodes to use.
- * @param options   Override strict and exact of the given route
  *
  * @returns         An Object with the given `routes` as keys and a boolean
  *                  for each indicating wether or not the route is active
  */
 export const useRoutesActive = <CRM extends ChildRouteMap<any>>(
-  routes: CRM,
-  options?: {
-    strict?: boolean;
-    exact?: boolean;
-  }
+  routes: CRM
 ): { [K in keyof CRM]: boolean } => {
   const { pathname } = useLocation();
 
   return Object.entries(routes)
     .map(v => ({
       [v[0]]:
-        matchPath(pathname, {
-          path: v[1].fullTemplate,
-          strict: options?.strict ?? v[1].strict,
-          exact: options?.exact ?? v[1].exact,
-        }) != null,
+        matchPath(
+          {
+            path: v[1].fullTemplate,
+          },
+          pathname
+        ) != null,
     }))
     .reduce((v, c) => Object.assign(v, c)) as any;
 };
