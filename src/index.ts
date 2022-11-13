@@ -11,9 +11,10 @@ import { OptionsRouterFn, RouterFn } from './router';
 import { RouteOptions, TemplateParserMap } from './types';
 
 export * from './components';
+export { createRouteObjectsFromRouter } from './createRouteObjects';
 export * from './hooks';
 export * from './paramParser';
-export { RouteComponent, RouteMiddleware, RouteOptions } from './types';
+export { RouteElement, RouteOptions } from './types';
 
 type OptionsRouteFn = <RO extends RouteOptions>(
   options: Required<RO>
@@ -38,7 +39,6 @@ const optionsRouteFn = <RO extends RouteOptions>(options: Required<RO>) => <
       previousPath: '',
       previousQueryParams: {},
       previousOptions: options,
-      previousMiddleware: undefined,
     },
     templateWithQuery,
     args,

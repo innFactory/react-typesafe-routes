@@ -1,4 +1,3 @@
-// file1.ts
 /**
  * This file contains the useRouteOptions hook.
  *
@@ -6,12 +5,12 @@
  * @module react-typesafe-routes
  */
 import { matchPath, useLocation } from 'react-router-dom';
-import { OptionsRouterType } from '../router';
+import { RouterType } from '../router';
 import { RouteOptions } from '../types';
-import { routerToRouteList } from '../utils/routerUtils';
+import { optionsRouterToRouteList } from '../utils/routerUtils';
 
 /**
- * Returns the RouteOptions} of the given {@link OptionsRouter
+ * Returns the {@link RouteOptions} of the given {@link OptionsRouter}
  * with all values being non-null.
  *
  * @example
@@ -40,11 +39,11 @@ import { routerToRouteList } from '../utils/routerUtils';
  * @returns         Non-null RouteOptions for the currently active Route
  */
 export const useRouteOptions = <RO extends RouteOptions>(
-  router: OptionsRouterType<RO>
+  router: RouterType<RO, any>
 ): RO => {
   const { pathname } = useLocation();
 
-  const routeList = routerToRouteList<RO>(router, true);
+  const routeList = optionsRouterToRouteList<RO>(router);
 
   // exclude wildcard route from list
   const route = routeList

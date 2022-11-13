@@ -31,6 +31,6 @@ export const Route = (
   <OriginalRoute
     {...p}
     path={p.to?.fullTemplate ?? p.path}
-    caseSensitive={p.to?.sensitive ?? p.caseSensitive ?? false}
+    caseSensitive={p.to?.caseSensitive ?? p.caseSensitive ?? false}
   />
 );

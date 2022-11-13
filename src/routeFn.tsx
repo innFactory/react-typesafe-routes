@@ -9,7 +9,6 @@ import {
 } from './routeNode';
 import {
   RawParams,
-  RouteMiddleware,
   RouteOptions,
   SerializedParams,
   TemplateParserMap,
@@ -30,7 +29,6 @@ export type RouteFnContext<RO extends RouteOptions> = {
   previousQueryParams: SerializedParams;
   previousPath: string;
   previousOptions: Required<RO>;
-  previousMiddleware: RouteMiddleware | undefined;
 };
 
 export type RouteFn<RO extends RouteOptions> = <
@@ -65,44 +63,19 @@ export function routeFn<
     ...this.previousOptions,
     ...args.options,
   };
-  var middleware: RouteMiddleware | undefined;
 
-  if (this.previousMiddleware) {
-    if (args.middleware) {
-      middleware = next => {
-        return this.previousMiddleware!(args.middleware!(next));
-      };
-    } else {
-      middleware = this.previousMiddleware;
-    }
-  } else {
-    if (args.middleware) {
-      middleware = props => args.middleware!(props);
-    }
-  }
-
-  const childrenRouteFn = childrenRouterFn({
-    previousPath: this.previousPath + '/' + parsedRoute.pathTemplate,
-    previousQueryParams: { ...this.previousQueryParams },
-    previousOptions: options,
-    previousMiddleware: middleware,
-  });
   const _children =
     typeof children === 'function'
-      ? children(childrenRouteFn)
+      ? children(
+          childRouteFn({
+            previousPath: fullTemplate,
+            previousQueryParams: { ...this.previousQueryParams },
+            previousOptions: options,
+          })
+        )
       : typeof children === 'object'
       ? children
       : undefined;
-
-  // DEBUG:
-  // console.log('routeFn', {
-  //   fullTemplate,
-  //   templateWithQuery,
-  //   parsedRoute,
-  //   options,
-  //   args,
-  //   this: this,
-  // });
 
   const fn = (rawParams: RawParams) =>
     new Proxy<any>(
@@ -123,15 +96,6 @@ export function routeFn<
             this.previousPath
           );
 
-          // console.log('routePath', {
-          //   templateWithQuery: templateWithQuery,
-          //   parsedRoute: parsedRoute,
-          //   rawParams: rawParams,
-          //   pathParams: pathParams,
-          //   queryParams: queryParams,
-          //   path: path,
-          // });
-
           if (next === '$') {
             return path + stringify(queryParams, { addQueryPrefix: true });
           } else if (next === Symbol.toPrimitive) {
@@ -146,11 +110,10 @@ export function routeFn<
                   previousPath: path,
                   previousQueryParams: queryParams,
                   previousOptions: options,
-                  previousMiddleware: middleware,
                 },
                 nextChild.templateWithQuery,
                 {
-                  component: nextChild.component,
+                  component: nextChild.element,
                   options: nextChild.options,
                   params: nextChild.paramsMap,
                 },
@@ -162,11 +125,10 @@ export function routeFn<
                   previousPath: path,
                   previousQueryParams: queryParams,
                   previousOptions: options,
-                  previousMiddleware: middleware,
                 },
                 nextChild.templateWithQuery,
                 {
-                  component: nextChild.component,
+                  component: nextChild.element,
                   options: nextChild.options,
                 },
                 nextChild.children
@@ -183,13 +145,16 @@ export function routeFn<
     fullTemplate: fullTemplate,
     templateWithQuery: templateWithQuery,
     template: parsedRoute.pathTemplate,
-    children: _children ?? ({} as CRM),
+    children: _children,
     options: options,
-    sensitive: args.sensitive ?? false,
-    includeChildren: args.includeChildren ?? true,
-    render: middleware
-      ? () => middleware!(args.component)
-      : () => args.component,
+    caseSensitive: args.caseSensitive,
+    loader: args.loader,
+    element: args.element,
+    action: args.action,
+    errorElement: args.errorElement,
+    shouldRevalidate: args.shouldRevalidate,
+    index: args.index,
+    layout: args.layout,
   } as RouteNodeBase<T, CRM, RO>;
 
   if (isRouteArgsWithParams(args)) {
@@ -203,9 +168,9 @@ export function routeFn<
 export type ChildrenRouterFn<
   RO extends RouteOptions,
   CRM extends ChildRouteMap<RO>
-> = (route: RouteFn<RO>) => { [K in keyof CRM]: CRM[K] };
+> = (r: RouteFn<RO>) => { [K in keyof CRM]: CRM[K] };
 
-const childrenRouterFn = <RO extends RouteOptions>(
+const childRouteFn = <RO extends RouteOptions>(
   context: RouteFnContext<RO>
 ): RouteFn<RO> => <
   T extends string,

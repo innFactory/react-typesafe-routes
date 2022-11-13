@@ -16,7 +16,7 @@ The last routing library you will ever need in your React projects. (At least if
   - [Example](#example)
     - [Router definition](#router-definition)
     - [Usage in App](#usage-in-app)
-    - [Route programatically](#route-programatically)
+    - [Route programmatically](#route-programmatically)
   - [Types of Routers](#types-of-routers)
     - [OptionsRouter](#optionsrouter)
     - [Router](#router)
@@ -26,7 +26,6 @@ The last routing library you will ever need in your React projects. (At least if
       - [Optional parameters](#optional-parameters)
       - [Query parameters](#query-parameters)
       - [Child Routes](#child-routes)
-    - [Middlewares](#middlewares)
   - [Parameter Parsers](#parameter-parsers)
     - [Available Parsers](#available-parsers)
     - [Your own parser](#your-own-parser)
@@ -147,7 +146,7 @@ const App = () => {
 };
 ```
 
-### Route programatically
+### Route programmatically
 
 To go to a route programmatically / without a `Link` Component:
 
@@ -320,36 +319,6 @@ const router = Route(route => ({
     })
   ),
 }));
-```
-
-### Middlewares
-
-A middleware is a special kind of function component that gets injected into your tree above your route. It also automatically applies to all child routes.
-
-Example for a Firebase authentication middleware:
-
-```tsx
-const AuthMiddleware: RouteMiddleware = (next) => {
-  // Get the FirebaseUser from state if your state make sure your state is
-  // persistent if not this won't work for you since the FirebaseUser will
-  // not be in the state in time.
-  // firebase.auth().currentUser won't work since it's not always up to date
-  const firebaseUser = useSelector((state: RootState) => state.firebaseUser);
-	if (firebaseUser === null) {
-		return () => <Redirect to={router.login()} />;
-	}
-	return next;
-}
-
-export const router = Router(route => ({
-  login: route('login', {
-    component: Login,
-  }),
-  restricted: route('restricted', {
-    component: Restricted,
-    middleware: AuthMiddleware,
-  }),
-});
 ```
 
 ## Parameter Parsers

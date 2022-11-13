@@ -11,27 +11,23 @@ export type OptionsRouterFn = <
 >(
   options: Required<RO>,
   routes: RoutesFn<RO, CRM>
-) => OptionsRouterType<RO, CRM>;
+) => RouterType<RO, CRM>;
 
-export type OptionsRouterType<
+export type RouterType<
   RO extends RouteOptions,
-  CRM extends ChildRouteMap<RO> = any
-> = {
-  [key: string]: never;
-} & {
-  defaultOptions: RO;
-} & {
-    [K in keyof CRM]: CRM[K];
-  };
+  CRM extends ChildRouteMap<RO>
+> = RO extends undefined
+  ? {
+      [K in keyof CRM]: CRM[K];
+    }
+  : {
+      [key: string]: never;
+    } & {
+      defaultOptions: RO;
+    } & {
+        [K in keyof CRM]: CRM[K];
+      };
 
 export type RouterFn = <CRM extends ChildRouteMap<undefined>>(
   routes: RoutesFn<undefined, CRM>
-) => RouterType<CRM>;
-
-export type RouterType<CRM extends ChildRouteMap<any>> = {
-  [K in keyof CRM]: CRM[K];
-};
-
-export type AnyRouterType<CRM extends ChildRouteMap<any> = any> =
-  | OptionsRouterType<CRM, any>
-  | RouterType<CRM>;
+) => RouterType<undefined, CRM>;

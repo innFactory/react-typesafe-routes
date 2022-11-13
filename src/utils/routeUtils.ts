@@ -110,11 +110,12 @@ export const paramsParser = ({
       : (acc, _) => ({ ...acc }),
     {}
   );
+
   pathTokens.concat(queryTokens).forEach(t => {
     if (
       isPathParam(t) &&
       ['', '+'].includes(t.modifier) &&
-      !parsedParams[t.name]
+      parsedParams[t.name] === undefined
     ) {
       throw Error(
         `[parseParams]: parameter "${t.name}" is required but is not defined`

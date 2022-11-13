@@ -1,9 +1,10 @@
 import {
-  TemplateParserMap,
-  RouteOptions,
-  RouteComponent,
-  RouteMiddleware,
-} from './types';
+  ActionFunction,
+  LoaderFunction,
+  ShouldRevalidateFunction,
+} from 'react-router-dom';
+import { RouteNodeRouteObject } from './routeNode';
+import { TemplateParserMap, RouteOptions, RouteElement } from './types';
 
 /**
  * RouteFnArgs with Paramers.
@@ -52,14 +53,38 @@ export type RouteFnArgs<
  */
 type RouteFnBaseArgs<RO extends RouteOptions> = {
   /**
-   * The Component to be rendered on this route.
+   * The element to render when the route matches the URL.
+   *
+   * See https://reactrouter.com/en/main/route/route#element
    */
-  component: RouteComponent;
+  element: RouteElement;
 
   /**
-   * A middleware for this Route.
+   * Defining a layout Element implicitly wraps the route in a layout route.
+   *
+   * e.g.
+   * ```tsx
+   * {
+   *  element: <Page />,
+   *  layout: <Layout />
+   * }
+   * // is equivalent to
+   * <Route layout={<Layout />}>
+   *   <Route element={<Page />} />
+   * </Route>
+   * ```
+   *
+   * See https://reactrouter.com/en/main/route/route#layout-routes
    */
-  middleware?: RouteMiddleware;
+  layout?: RouteNodeRouteObject;
+
+  /**
+   * Adds an index route to this routes children.
+   *
+   * See https://reactrouter.com/en/main/start/tutorial#index-routes
+   * and https://reactrouter.com/en/main/guides/index-route
+   */
+  index?: RouteNodeRouteObject;
 
   /**
    * Global options for this Route.
@@ -67,19 +92,27 @@ type RouteFnBaseArgs<RO extends RouteOptions> = {
   options?: Partial<RO>;
 
   /**
-   * Include this Routes child routes in a RouterSwitch.
-   *
-   * @defaultValue true
+   * See https://reactrouter.com/en/main/route/loader
    */
-  includeChildren?: boolean;
+  loader?: LoaderFunction;
 
   /**
-   * When true, will match if the path is case sensitive.
-   *
-   * @remark
-   * Taken from https://reactrouter.com/web/api/Route/sensitive-bool
-   *
-   * @defaultValue false
+   * See https://reactrouter.com/en/main/route/route#casesensitive
    */
-  sensitive?: boolean;
+  caseSensitive?: boolean;
+
+  /**
+   * See https://reactrouter.com/en/main/route/action
+   */
+  action?: ActionFunction;
+
+  /**
+   * See https://reactrouter.com/en/main/route/error-element
+   */
+  errorElement?: JSX.Element;
+
+  /**
+   * See https://reactrouter.com/en/main/route/should-revalidate
+   */
+  shouldRevalidate?: ShouldRevalidateFunction;
 };

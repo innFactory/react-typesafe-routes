@@ -3,13 +3,9 @@ import { ParamParser } from "./paramParser";
 /**
  * The React Component for a Route
  */
-export type RouteComponent = React.ComponentType<any>;
+export type RouteElement = () => React.ReactElement;
 
 export type RouteOptions = Record<string, any> | undefined;
-
-export type RouteMiddleware = (
-next: RouteComponent
-) =>  RouteComponent;
 
 type InferParam<T extends string, M extends [string, string]> =
   T extends `:${infer O}?` ? [M[0], M[1] | O]

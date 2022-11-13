@@ -32,14 +32,10 @@ export const useRoutesActive = <CRM extends ChildRouteMap<any>>(
   const { pathname } = useLocation();
 
   return Object.entries(routes)
-    .map(v => ({
-      [v[0]]:
-        matchPath(
-          {
-            path: v[1].fullTemplate,
-          },
-          pathname
-        ) != null,
-    }))
+    .map(v => {
+      return {
+        [v[0]]: matchPath({ path: v[1]?.fullTemplate }, pathname) != null,
+      };
+    })
     .reduce((v, c) => Object.assign(v, c)) as any;
 };

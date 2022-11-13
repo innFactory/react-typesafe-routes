@@ -25,7 +25,6 @@
     "build": "tsdx build",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
-    "react": "tsdx build && yarn parcel src/react/index.html",
     "doc:build": "typedoc src/index.ts",
     "doc:deploy": "yarn doc:build && gh-pages -d docs",
     "size": "size-limit",
@@ -39,35 +38,31 @@
     "trailingComma": "es5"
   },
   "resolutions": {
-    "**/@typescript-eslint/eslint-plugin": "^5.41.0",
-    "**/@typescript-eslint/parser": "^5.41.0",
-    "**/typescript": "4.8.4"
+    "**/typescript": "^4.1.6"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^4.9.0",
-    "@types/qs": "^6.9.5",
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.41.0",
-    "@typescript-eslint/parser": "^5.41.0",
-    "gh-pages": "^3.1.0",
-    "husky": "^4.3.0",
-    "parcel": "^1.12.4",
-    "qs": "^6.9.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "6.4.2",
-    "size-limit": "^4.9.0",
+    "@size-limit/preset-small-lib": "^8.1.0",
+    "@types/qs": "^6.9.7",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "gh-pages": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "size-limit": "^8.1.0",
     "tsdx": "^0.14.1",
-    "tslib": "^2.0.3",
-    "typedoc": "^0.20.10",
-    "typescript": "4.8.4"
+    "tslib": "^2.4.1",
+    "typedoc": "^0.23.20",
+    "typescript": "^4.8.4"
   },
   "peerDependencies": {
-    "react": ">=16",
-    "react-dom": ">=16",
-    "react-router-dom": "6.4.2",
-    "typescript": "^4.8.4"
+    "react": ">=18",
+    "react-dom": ">=18",
+    "react-router-dom": "^6.4.2",
+    "typescript": "^4.1.6"
   },
   "engines": {
     "node": ">=14"
@@ -81,5 +76,8 @@
       "path": "dist/react-typesafe-routes.esm.js",
       "limit": "15 KB"
     }
-  ]
+  ],
+  "dependencies": {
+    "qs": "^6.11.0"
+  }
 }
