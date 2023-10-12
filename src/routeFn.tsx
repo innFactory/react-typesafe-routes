@@ -21,7 +21,7 @@ import {
   stringifyRoute,
 } from './utils/routeUtils';
 
-export type ChildRouteMap<RO> = Record<
+export type ChildRouteMap<RO extends RouteOptions> = Record<
   string,
   RouteNodeWithParams<any, any, any, RO> | RouteNodeWithoutParams<any, any, RO>
 >;
@@ -69,7 +69,7 @@ export function routeFn<
 
   if (this.previousMiddleware) {
     if (args.middleware) {
-      middleware = next => {
+      middleware = (next) => {
         return this.previousMiddleware!(args.middleware!(next));
       };
     } else {
@@ -77,7 +77,7 @@ export function routeFn<
     }
   } else {
     if (args.middleware) {
-      middleware = props => args.middleware!(props);
+      middleware = (props) => args.middleware!(props);
     }
   }
 
@@ -207,20 +207,20 @@ export type ChildrenRouterFn<
   CRM extends ChildRouteMap<RO>
 > = (route: RouteFn<RO>) => { [K in keyof CRM]: CRM[K] };
 
-const childrenRouterFn = <RO extends RouteOptions>(
-  context: RouteFnContext<RO>
-): RouteFn<RO> => <
-  T extends string,
-  TPM extends TemplateParserMap<T>,
-  CRM extends ChildRouteMap<RO>,
-  CRF extends ChildrenRouterFn<RO, CRM>
->(
-  templateWithQuery: T,
-  args: RouteFnArgs<T, TPM, RO>,
-  children?: CRF
-): RouteNode<T, TPM, CRM, RO> =>
-  routeFn.call<
-    RouteFnContext<RO>,
-    [T, typeof args, CRF | undefined],
-    RouteNode<T, TPM, CRM, RO>
-  >(context, templateWithQuery, args, children);
+const childrenRouterFn =
+  <RO extends RouteOptions>(context: RouteFnContext<RO>): RouteFn<RO> =>
+  <
+    T extends string,
+    TPM extends TemplateParserMap<T>,
+    CRM extends ChildRouteMap<RO>,
+    CRF extends ChildrenRouterFn<RO, CRM>
+  >(
+    templateWithQuery: T,
+    args: RouteFnArgs<T, TPM, RO>,
+    children?: CRF
+  ): RouteNode<T, TPM, CRM, RO> =>
+    routeFn.call<
+      RouteFnContext<RO>,
+      [T, typeof args, CRF | undefined],
+      RouteNode<T, TPM, CRM, RO>
+    >(context, templateWithQuery, args, children);

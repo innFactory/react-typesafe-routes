@@ -1,5 +1,3 @@
 {
-    "cSpell.words": [
-        "tsdx"
-    ]
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }

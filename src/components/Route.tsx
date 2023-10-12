@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Route as OriginalRoute, RouteProps } from 'react-router-dom';
 import { AnyRouteNode } from '../routeNode';
 
